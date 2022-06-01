@@ -37,6 +37,12 @@ namespace MSBotV2
                     handleBuffMode();
                 }
 
+                // Poll using template matching
+                // Take printscreen (haystack), and see if any needle matches (i.e., deathscreen)
+                // Also pattern match when entering map, to see if exp. penalty is applied
+                
+                
+
                 // Poll switch mode according to Cycle definition
                 PollOrchestratorModeCycleStrategy();
             }
@@ -111,6 +117,13 @@ namespace MSBotV2
 
                     break;
             }
+        }
+
+        private static void PollTemplateMatchingPatterns()
+        {
+            // Todo: Define next action to perform in case no match is found, or in case match is found
+
+
         }
     }
 
