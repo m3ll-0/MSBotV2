@@ -18,6 +18,7 @@ namespace MSBot
             Thread.Sleep(3000);
 
             Orchestrator.Orchestrate();
+            //demo();
         }
 
         public static void demo() {
@@ -29,7 +30,7 @@ namespace MSBot
             //    new ScriptItem(AtomicParallelEvents.ChangeChannel),
             //};
 
-            //ScriptComposer.run(ScriptComposer.Compose(test2));
+            ScriptComposer.run(ScriptComposer.Compose(FinishedScripts.PreExitMottled.Concat(FinishedScripts.ChangeChannel).ToList()));
         }
     }
 

@@ -57,7 +57,7 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFTARROW, 820, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFTARROW, 750, 0),
             };
         }
 
@@ -314,5 +314,60 @@ namespace MSBotV2
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F9, 100, 0),
             };
         }
+
+        public static List<ParallelCommand> BuffContact()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_5, 400, 0),
+            };
+        }
+
+        public static List<ParallelCommand> BuffFlora()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_6, 400, 0),
+            };
+        }
+
+        public static List<ParallelCommand> BuffWrath()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_7, 400, 0),
+            };
+        }
+
+        public static List<ParallelCommand> BuffAmplifier()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_8, 400, 0),
+            };
+        }
+
+        public static List<ParallelCommand> BuffOverdrive()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_9, 400, 0),
+            };
+        }
+
+        public static List<ParallelCommand> BuffInfinity()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_0, 400, 0),
+            };
+        }
+
     }
 }

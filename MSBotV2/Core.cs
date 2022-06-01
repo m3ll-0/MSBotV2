@@ -12,7 +12,7 @@ namespace MSBotV2
     {
         protected int numberOfAliveParallelCommandThreads = 0;
 
-        public void RunCore(Script script) {
+        public void RunScript(Script script) {
 
             for (; ; ) {
                 // Peek to see if potentialParallelEvent is ready to be invoked

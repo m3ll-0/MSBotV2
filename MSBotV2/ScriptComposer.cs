@@ -14,7 +14,7 @@ namespace MSBotV2
         public static void run(Script script) {
             // Core
             Core core = new Core();
-            core.RunCore(script);
+            core.RunScript(script);
         }
 
         /**

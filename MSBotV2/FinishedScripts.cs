@@ -82,7 +82,7 @@ namespace MSBotV2
                 new ScriptItem(AtomicParallelEvents.DashComboLeft),
             };
 
-        public static List<ScriptItem> ExitMapRight = new List<ScriptItem>()
+        public static List<ScriptItem> ExitMapRightCaveOfRepose = new List<ScriptItem>()
             {
                 new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
                 new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
@@ -99,21 +99,29 @@ namespace MSBotV2
                 new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
                 new ScriptItem(AtomicParallelEvents.PauseMedium),
                 new ScriptItem(AtomicParallelEvents.TurnLeft),
-                new ScriptItem(AtomicParallelEvents.AttackSwipe),
-                new ScriptItem(AtomicParallelEvents.AttackNormal),
-                new ScriptItem(AtomicParallelEvents.AttackCube),
+                //new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackCube),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.ToggleSpecterMode),
+                new ScriptItem(AtomicParallelEvents.AttackPulse),
                 new ScriptItem(AtomicParallelEvents.PauseMedium),
                 new ScriptItem(AtomicParallelEvents.WalkLeftShort),
                 new ScriptItem(AtomicParallelEvents.EnterPortal),
+                new ScriptItem(AtomicParallelEvents.PauseLong),
+                new ScriptItem(AtomicParallelEvents.ToggleSpecterMode),
             };
 
         public static List<ScriptItem> EnterMapLeft = new List<ScriptItem>()
             {
                 new ScriptItem(AtomicParallelEvents.JumpDoubleLeft),
                 new ScriptItem(AtomicParallelEvents.JumpDoubleLeft),
-                new ScriptItem(AtomicParallelEvents.JumpDoubleLeft),
                 new ScriptItem(AtomicParallelEvents.WalkRightShort),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
                 new ScriptItem(AtomicParallelEvents.EnterPortal),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
             };
 
         public static List<ScriptItem> ChangeChannel = new List<ScriptItem>()
@@ -123,6 +131,23 @@ namespace MSBotV2
                 new ScriptItem(AtomicParallelEvents.PauseMedium),
                 new ScriptItem(AtomicParallelEvents.ChangeChannel),
                 new ScriptItem(AtomicParallelEvents.PauseLong),
+            };
+
+        public static List<ScriptItem> Buff = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.BuffInfinity),
+                new ScriptItem(AtomicParallelEvents.BuffFlora),
+                new ScriptItem(AtomicParallelEvents.BuffWrath),
+                new ScriptItem(AtomicParallelEvents.BuffContact),
+                new ScriptItem(AtomicParallelEvents.BuffAmplifier),
+                new ScriptItem(AtomicParallelEvents.BuffOverdrive),
+            };
+
+        public static List<ScriptItem> PreExitMottled = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
+                new ScriptItem(AtomicParallelEvents.AttackPulse),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
             };
 
 
