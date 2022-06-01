@@ -99,11 +99,14 @@ namespace MSBotV2
 
                 case OrchestratorModeCycleStrategy.SIMPLE:
                     int switchTime  = OrchestratorModeCycleStrategyConfig.cycleConfigTime[orchestratorMode];
-                    if (sw.ElapsedMilliseconds > switchTime)
+                    if (sw.Elapsed.TotalMilliseconds > switchTime)
                     {
                         orchestratorMode = OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode];
                         sw.Restart();
                         Console.WriteLine($"Changed OrchestratorMode to [{orchestratorMode}]");
+                    }
+                    else {
+                        Console.WriteLine($"{sw.Elapsed.TotalMilliseconds} ||NOT|| {switchTime} ");
                     }
 
                     break;
