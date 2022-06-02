@@ -60,7 +60,7 @@ namespace MSBotV2
         }
 
         private static (int,int) GetGameWindowCoordinates() {
-            Process[] processes = Process.GetProcessesByName("Photos");
+            Process[] processes = Process.GetProcessesByName("Microsoft.Photos");
             Process maplestory = processes[0];
             IntPtr ptr = maplestory.MainWindowHandle;
             Rect MapleStoryRect = new Rect();
