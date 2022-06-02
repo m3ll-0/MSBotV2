@@ -73,28 +73,8 @@ namespace MSBotV2
                 }
             }
 
-            var cors = ScreenCapture.GetCurrentWindowCoordinates();
-
-            Process[] processes = Process.GetProcessesByName("MapleStory");
-            Process lol = processes[0];
-            IntPtr ptr = lol.MainWindowHandle;
-            Rect NotepadRect = new Rect();
-            GetWindowRect(ptr, ref NotepadRect);
-
-            Console.Write($"{NotepadRect.Left} || {NotepadRect.Top}");
-
-            // Set cursor position with scaling
-
-            double x_coordinate_scaling_factor = 0.793650794;
-            double y_coordinate_scaling_factor = 0.8;
-
-            // Scale the physical coordinates, and add 10px as padding because template matching selects the first pixel found
-            // Another implementation is only selecting the middle of the image as a needle, coud be looked at
-            int x_coordinate_scaled = (int) (x_coordinate_physical * x_coordinate_scaling_factor) + 10;
-            int y_coordinate_scaled = (int)(y_coordinate_physical * y_coordinate_scaling_factor) + 10;
-
             // Is accurate when placed at 0,0 without notepadleft!)
-            SetCursorPosition(x_coordinate_scaled + (int)(NotepadRect.Left * x_coordinate_scaling_factor), y_coordinate_scaled + (int)(NotepadRect.Top * y_coordinate_scaling_factor));
+            Mouse.SetCursorPosition(x_coordinate_physical, y_coordinate_physical);
 
             // Find corresponding action
             var templateMatchingTriple = TemplateMatchingResult.TemplateMatchingResults.Where(x => x.Item1 == templateMatchingAction).First();
@@ -119,15 +99,6 @@ namespace MSBotV2
             public int Top { get; set; }
             public int Right { get; set; }
             public int Bottom { get; set; }
-        }
-
-
-        [DllImport("user32.dll")]
-        static extern bool SetCursorPos(int X, int Y);
-
-        public static void SetCursorPosition(int x, int y)
-        {
-            SetCursorPos(x, y);
         }
 
         static class TemplateMatchingActionFile
@@ -184,14 +155,8 @@ namespace MSBotV2
 
         public static Bitmap CaptureWindow(IntPtr handle)
         {
-            //Process[] processes = Process.GetProcessesByName("MapleStory");
-            //Process lol = processes[0];
-            //IntPtr ptr = lol.MainWindowHandle;
-            //Rect rect = new Rect();
-
             var rect = new Rect();
             GetWindowRect(handle, ref rect);
-            //GetWindowRect(ptr, ref rect);
 
             var bounds = new Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
             var result = new Bitmap(bounds.Width, bounds.Height);
@@ -202,23 +167,6 @@ namespace MSBotV2
             }
 
             return result;
-        }
-
-        public static (int, int) GetCurrentWindowCoordinates() {
-
-            IntPtr handle = GetForegroundWindow();
-
-            var rect = new Rect();
-            GetWindowRect(handle, ref rect);
-            var bounds = new Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
-            var result = new Bitmap(bounds.Width, bounds.Height);
-
-            //using (var graphics = Graphics.FromImage(result))
-            //{
-            //    graphics.CopyFromScreen(new Point(bounds.Left, bounds.Top), Point.Empty, bounds.Size);
-            //}
-
-            return (bounds.Width, bounds.Top);
         }
     }
 
