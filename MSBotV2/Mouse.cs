@@ -20,7 +20,7 @@ namespace MSBotV2
             int x_coordinate_mswindow_undetermined = mapleStoryWindowCoordinates.Item1;
             int y_coordinate_mswindow_undetermined = mapleStoryWindowCoordinates.Item2;
 
-            Console.Write($"mapleStoryWindowCoordinates: {mapleStoryWindowCoordinates.Item1} || {mapleStoryWindowCoordinates.Item2}");
+            Console.Write($"XmapleStoryWindowCoordinates: {mapleStoryWindowCoordinates.Item1} || {mapleStoryWindowCoordinates.Item2}");
 
             // todo move to config
             double x_coordinate_scaling_factor = 0.793650794;
@@ -45,8 +45,8 @@ namespace MSBotV2
                     break;
 
                 case false: // Coordinates are absolute
-                    x_coordinate_result = x_coordinate_needle_undetermined + x_coordinate_mswindow_undetermined;
-                    y_coordinate_result = y_coordinate_needle_undetermined + y_coordinate_mswindow_undetermined;
+                    x_coordinate_result = x_coordinate_needle_undetermined;
+                    y_coordinate_result = y_coordinate_needle_undetermined;
                     break;
             }
 
