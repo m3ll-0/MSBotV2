@@ -45,8 +45,8 @@ namespace MSBotV2
                     break;
 
                 case false: // Coordinates are absolute
-                    x_coordinate_result = x_coordinate_needle_undetermined;
-                    y_coordinate_result = y_coordinate_needle_undetermined;
+                    x_coordinate_result = x_coordinate_needle_undetermined + x_coordinate_mswindow_undetermined;
+                    y_coordinate_result = y_coordinate_needle_undetermined + y_coordinate_mswindow_undetermined;
                     break;
             }
 
