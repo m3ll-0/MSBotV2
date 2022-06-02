@@ -50,6 +50,9 @@ namespace MSBotV2
                     break;
             }
 
+            Console.Write($"Result: {x_coordinate_result} || {y_coordinate_result}");
+
+
             // Add 10px as padding because template matching selects the first pixel found
             // Another implementation is only selecting the middle of the image as a needle, coud be looked at
             x_coordinate_result += 10;
