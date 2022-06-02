@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "G8pWbw3yWaMiZjAaT/JQ06hUxDs55MIGD7DTxsZwsqCjN9b99O6CcjDCKlNFnHc70ohwt+0Jm3gGSNLSxHJV9Q==",
+  "dgSpecHash": "ViBhLy1RcjsV9w9yJkPnFnOlLVUv6c3LWW/n1P4/BU2ZlTk8fk+nV8aUOGdJV2S0NzVPVmNKLRIlpqs/XDdnlQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\mihae\\source\\repos\\MSBotV2\\MSBotV2\\MSBotV2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mihae\\.nuget\\packages\\emgu.cv\\4.5.5.4823\\emgu.cv.4.5.5.4823.nupkg.sha512",
+    "C:\\Users\\mihae\\.nuget\\packages\\emgu.cv.bitmap\\4.5.5.4823\\emgu.cv.bitmap.4.5.5.4823.nupkg.sha512",
     "C:\\Users\\mihae\\.nuget\\packages\\emgu.cv.runtime.windows\\4.5.5.4823\\emgu.cv.runtime.windows.4.5.5.4823.nupkg.sha512",
     "C:\\Users\\mihae\\.nuget\\packages\\emgu.runtime.windows.msvc.rt.x64\\19.29.30138\\emgu.runtime.windows.msvc.rt.x64.19.29.30138.nupkg.sha512",
     "C:\\Users\\mihae\\.nuget\\packages\\emgu.runtime.windows.msvc.rt.x86\\19.29.30138\\emgu.runtime.windows.msvc.rt.x86.19.29.30138.nupkg.sha512",

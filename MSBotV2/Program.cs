@@ -16,18 +16,14 @@ namespace MSBot
         // TODO, activate - deactivate specter manually exit map 3, otherwise on mistake it can still go
         static void Main(string[] args)
         {
-
+            TemplateMatching.LoadNeedlesFromDiskToMemory();
 
             Console.WriteLine("Starting in 3 seconds.");
             Thread.Sleep(3000);
 
-            var image = ScreenCapture.CaptureActiveWindow();
-            image.Save(@"C:\temp\snippetsource.jpg", ImageFormat.Jpeg);
+            TemplateMatching.TemplateMatch(TemplateMatching.TemplateMatchingAction.DEATH_SCREEN);
 
             //Orchestrator.Orchestrate();
-            //demo();
-
-            //img.x();
         }
 
         public static void demo() {

@@ -9,6 +9,7 @@
       "MSBotV2/1.0.0": {
         "dependencies": {
           "Emgu.CV": "4.5.5.4823",
+          "Emgu.CV.Bitmap": "4.5.5.4823",
           "Emgu.CV.runtime.windows": "4.5.5.4823",
           "System.Drawing.Common": "6.0.0"
         },
@@ -24,6 +25,18 @@
         },
         "runtime": {
           "lib/netstandard2.0/Emgu.CV.Platform.NetStandard.dll": {
+            "assemblyVersion": "4.5.5.4823",
+            "fileVersion": "4.5.5.4823"
+          }
+        }
+      },
+      "Emgu.CV.Bitmap/4.5.5.4823": {
+        "dependencies": {
+          "Emgu.CV": "4.5.5.4823",
+          "System.Drawing.Common": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {
             "assemblyVersion": "4.5.5.4823",
             "fileVersion": "4.5.5.4823"
           }
@@ -320,6 +333,13 @@
       "sha512": "sha512-TmiMwyjh1/WZwnjNFF2PZmenI1cZqjtm6l9/8icXk7MMGwkd19DqX7s9igSgIgzqQqYXABW6ECOi56GbNTJHJA==",
       "path": "emgu.cv/4.5.5.4823",
       "hashPath": "emgu.cv.4.5.5.4823.nupkg.sha512"
+    },
+    "Emgu.CV.Bitmap/4.5.5.4823": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HikxFAyO72MGD/sUySiFmzYQzdEOIx75X2c2j+s0r6kL2EniKtmU1wEM84WrSONeKjpD1QAxPA2iFPyP4bbw7g==",
+      "path": "emgu.cv.bitmap/4.5.5.4823",
+      "hashPath": "emgu.cv.bitmap.4.5.5.4823.nupkg.sha512"
     },
     "Emgu.CV.runtime.windows/4.5.5.4823": {
       "type": "package",

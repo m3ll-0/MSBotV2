@@ -35,13 +35,7 @@ namespace MSBotV2
                 }
                 else if (orchestratorMode == OrchestratorMode.MODE_BUFF) {
                     handleBuffMode();
-                }
-
-                // Poll using template matching
-                // Take printscreen (haystack), and see if any needle matches (i.e., deathscreen)
-                // Also pattern match when entering map, to see if exp. penalty is applied
-                
-                
+                }           
 
                 // Poll switch mode according to Cycle definition
                 PollOrchestratorModeCycleStrategy();
@@ -76,7 +70,6 @@ namespace MSBotV2
             core.RunScript(ScriptComposer.Compose(Buff));
         }
 
-
         private static List<ScriptItem>? GetRandomAttack()
         {
             // Attack scripts HAVE to be symmetric
@@ -99,12 +92,38 @@ namespace MSBotV2
             return null;
         }
 
+        private static OrchestratorMode? PollTemplateMatching(TemplateMatching.TemplateMatchingAction templateMatchingAction) {
+
+            bool foundMatch = TemplateMatching.TemplateMatch(templateMatchingAction);
+
+            // Find corresponding action
+            var templateMatchingTriple = TemplateMatchingConfig.TemplateMatchingOrchestratorModes.Where(x => x.Item1 == templateMatchingAction).First();
+            OrchestratorMode? orchestratorMode = foundMatch ? templateMatchingTriple.Item2 : templateMatchingTriple.Item3;
+
+            return orchestratorMode;
+        }
+
         private static void PollOrchestratorModeCycleStrategy()
         {
             switch (orchestratorModeCycleStrategy) {
 
                 case OrchestratorModeCycleStrategy.SIMPLE:
-                    int switchTime  = OrchestratorModeCycleStrategyConfig.cycleConfigTime[orchestratorMode];
+
+                    // todo: put in config
+                    // poll template matching for each defined action
+                    // use predefined list for actions to test during this phase
+                    // potential problem, only the latest o-mode will be set afterwards because it is sequential, priority?
+                    foreach (TemplateMatching.TemplateMatchingAction templateMatchingAction in TemplateMatchingConfig.templateActionsInterruptingOrchestrator) {
+                        OrchestratorMode? polledOrchestratorMode = PollTemplateMatching(templateMatchingAction);
+
+                        if (polledOrchestratorMode != null)
+                        {
+                            orchestratorMode = (OrchestratorMode)polledOrchestratorMode;
+                            return;
+                        }
+                    }
+
+                    int switchTime = OrchestratorModeCycleStrategyConfig.cycleConfigTime[orchestratorMode];
                     if (sw.Elapsed.TotalMilliseconds > switchTime)
                     {
                         orchestratorMode = OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode];
@@ -118,20 +137,13 @@ namespace MSBotV2
                     break;
             }
         }
-
-        private static void PollTemplateMatchingPatterns()
-        {
-            // Todo: Define next action to perform in case no match is found, or in case match is found
-
-
-        }
     }
 
-    internal enum OrchestratorMode
+    public enum OrchestratorMode
     { 
         MODE_ATTACK,
         MODE_CC,
-        MODE_BUFF
+        MODE_BUFF,
     }
 
     internal enum OrchestratorModeCycleStrategy
@@ -179,4 +191,16 @@ namespace MSBotV2
         };
     }
 
+    static class TemplateMatchingConfig
+    {
+        public static List<(TemplateMatching.TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)> TemplateMatchingOrchestratorModes = new List<(TemplateMatching.TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)>()
+        {
+            new (TemplateMatching.TemplateMatchingAction.DEATH_SCREEN, OrchestratorMode.MODE_BUFF, null)
+        };
+
+        public static List<TemplateMatching.TemplateMatchingAction> templateActionsInterruptingOrchestrator = new List<TemplateMatching.TemplateMatchingAction>()
+        {
+            TemplateMatching.TemplateMatchingAction.DEATH_SCREEN
+        };
+    }
 }

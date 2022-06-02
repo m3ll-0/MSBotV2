@@ -16,6 +16,19 @@
           "lib/netstandard2.0/Emgu.CV.Platform.NetStandard.dll": {}
         }
       },
+      "Emgu.CV.Bitmap/4.5.5.4823": {
+        "type": "package",
+        "dependencies": {
+          "Emgu.CV": "4.5.5.4823",
+          "System.Drawing.Common": "6.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Emgu.CV.Bitmap.dll": {}
+        }
+      },
       "Emgu.CV.runtime.windows/4.5.5.4823": {
         "type": "package",
         "dependencies": {
@@ -400,6 +413,22 @@
         "lib/netstandard2.0/Emgu.CV.Platform.NetStandard.xml",
         "lib/xamarinios10/Emgu.CV.Platform.NetStandard.dll",
         "lib/xamarinios10/Emgu.CV.Platform.NetStandard.xml"
+      ]
+    },
+    "Emgu.CV.Bitmap/4.5.5.4823": {
+      "sha512": "HikxFAyO72MGD/sUySiFmzYQzdEOIx75X2c2j+s0r6kL2EniKtmU1wEM84WrSONeKjpD1QAxPA2iFPyP4bbw7g==",
+      "type": "package",
+      "path": "emgu.cv.bitmap/4.5.5.4823",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "docs/README.md",
+        "emgu.cv.bitmap.4.5.5.4823.nupkg.sha512",
+        "emgu.cv.bitmap.nuspec",
+        "icon.png",
+        "lib/netstandard2.0/Emgu.CV.Bitmap.dll",
+        "lib/netstandard2.0/Emgu.CV.Bitmap.xml"
       ]
     },
     "Emgu.CV.runtime.windows/4.5.5.4823": {
@@ -1553,6 +1582,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Emgu.CV >= 4.5.5.4823",
+      "Emgu.CV.Bitmap >= 4.5.5.4823",
       "Emgu.CV.runtime.windows >= 4.5.5.4823",
       "System.Drawing.Common >= 6.0.0"
     ]
@@ -1602,6 +1632,10 @@
         "targetAlias": "net6.0",
         "dependencies": {
           "Emgu.CV": {
+            "target": "Package",
+            "version": "[4.5.5.4823, )"
+          },
+          "Emgu.CV.Bitmap": {
             "target": "Package",
             "version": "[4.5.5.4823, )"
           },
