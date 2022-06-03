@@ -10,7 +10,7 @@ namespace MSBotV2
 {
     public static class Mouse
     {
-        public static bool UseScreenScaling = true  ;
+        public static bool UseScreenScaling = false;
 
         public static void SetCursorPosition((int, int) coordinates_undetermined) {
 
