@@ -10,7 +10,7 @@ namespace MSBotV2
 {
     public static class Mouse
     {
-        public static bool UseScreenScaling = false;
+        public static bool UseScreenScaling = true  ;
 
         public static void SetCursorPosition((int, int) coordinates_undetermined) {
 
@@ -60,7 +60,7 @@ namespace MSBotV2
             x_coordinate_result += 10;
             y_coordinate_result += 10;
 
-            // Is accurate when placed at 0,0 without notepadleft!)
+            // Set cursor position
             SetCursorPos(x_coordinate_result, y_coordinate_result);
         }
 

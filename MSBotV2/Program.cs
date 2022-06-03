@@ -24,12 +24,14 @@ namespace MSBotV2
 
             //DynamicScriptBuilder.BuildOpenPetDynamicScript().Invoke();
 
+            //Orchestrator.GetRandomSpecterAttack();
+
             Orchestrator.Orchestrate();
 
 
             //Console.WriteLine("Starting in 3 seconds.");
 
-            //TemplateMatching.TemplateMatch(TemplateMatching.TemplateMatchingAction.DEATH_SCREEN);
+            //TemplateMatching.TemplateMatch(TemplateMatching.TemplateMatchingAction.SPECTER_GAUGE_FULL);
 
 
             //List<ScriptItem> x = FinishedScripts.NavigateChuChuToFiveColorHillPath

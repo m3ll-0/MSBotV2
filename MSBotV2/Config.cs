@@ -11,16 +11,19 @@ namespace MSBotV2
     {
         public static class TemplateMatchingConfig
         {
-            public static List<(TemplateMatching.TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)> TemplateMatchingOrchestratorModes = new List<(TemplateMatching.TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)>()
+            public static List<(TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)> TemplateMatchingOrchestratorModes = new List<(TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)>()
             {
-                new (TemplateMatching.TemplateMatchingAction.DEATH_SCREEN, OrchestratorMode.MODE_ATTACK, null),
-                new (TemplateMatching.TemplateMatchingAction.PENALTY, OrchestratorMode.MODE_ATTACK, null)
+                new (TemplateMatchingAction.DEATH_SCREEN, OrchestratorMode.MODE_ATTACK, null),
+                new (TemplateMatchingAction.PENALTY, OrchestratorMode.MODE_ATTACK, null),
+                new (TemplateMatchingAction.SPECTER_GAUGE_FULL, OrchestratorMode.MODE_ATTACK_SPECTER, null),
             };
 
-            public static List<TemplateMatching.TemplateMatchingAction> templateActionsInterruptingOrchestrator = new List<TemplateMatching.TemplateMatchingAction>()
+            // TemplateMatchingActions that interrupt the main cycle
+            public static List<TemplateMatchingAction> templateActionsInterruptingOrchestrator = new List<TemplateMatchingAction>()
             {
-                TemplateMatching.TemplateMatchingAction.DEATH_SCREEN,
-                TemplateMatching.TemplateMatchingAction.PENALTY
+                TemplateMatchingAction.DEATH_SCREEN,
+                TemplateMatchingAction.PENALTY,
+                TemplateMatchingAction.SPECTER_GAUGE_FULL
             };
 
             public static Dictionary<TemplateMatchingAction, TemplateMatchingMouseClickType> TemplateMatchingMouseClicks = new Dictionary<TemplateMatchingAction, TemplateMatchingMouseClickType>()
@@ -29,6 +32,7 @@ namespace MSBotV2
                 { TemplateMatchingAction.PENALTY, TemplateMatchingMouseClickType.NONE },
                 { TemplateMatchingAction.INVENTORY_CASH, TemplateMatchingMouseClickType.MOUSE_CLICK_SINGLE},
                 { TemplateMatchingAction.INVENTORY_PET, TemplateMatchingMouseClickType.MOUSE_CLICK_DOUBLE},
+                { TemplateMatchingAction.SPECTER_GAUGE_FULL, TemplateMatchingMouseClickType.NONE},
             };
 
             public static List<(TemplateMatchingAction, DynamicScript?, DynamicScript?)> TemplateMatchingResults = new List<(TemplateMatchingAction, DynamicScript?, DynamicScript?)>()
@@ -42,6 +46,11 @@ namespace MSBotV2
                     TemplateMatchingAction.PENALTY,
                     DynamicScriptBuilder.BuildChangeChannelDynamicScript(),
                     null
+                    ),
+                new (
+                    TemplateMatchingAction.SPECTER_GAUGE_FULL,
+                    DynamicScriptBuilder.BuildSpecterGaugeFullDynamicScript(),
+                    null
                     )
             };
 
@@ -50,7 +59,8 @@ namespace MSBotV2
                 { TemplateMatchingAction.DEATH_SCREEN, "needle_deathscreen.png" },
                 { TemplateMatchingAction.PENALTY, "needle_penalty.png" },
                 { TemplateMatchingAction.INVENTORY_CASH, "needle_cash.png" },
-                { TemplateMatchingAction.INVENTORY_PET, "needle_pet.png" }, 
+                { TemplateMatchingAction.INVENTORY_PET, "needle_pet.png" },
+                { TemplateMatchingAction.SPECTER_GAUGE_FULL, "needle_specter_gauge_full.png" },
             };
         }
     }

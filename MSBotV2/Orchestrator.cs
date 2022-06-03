@@ -35,9 +35,14 @@ namespace MSBotV2
                 {
                     handleChangeChannelMode();
                 }
-                else if (orchestratorMode == OrchestratorMode.MODE_BUFF) {
+                else if (orchestratorMode == OrchestratorMode.MODE_BUFF)
+                {
                     handleBuffMode();
-                }           
+                }
+                // Special OM not part of cycle
+                else if (orchestratorMode == OrchestratorMode.MODE_ATTACK_SPECTER) {
+                    HandleAttackSpecterMode(); 
+                }
 
                 // Poll switch mode according to Cycle definition
                 PollOrchestratorModeCycleStrategy();
@@ -53,6 +58,35 @@ namespace MSBotV2
             // Toggle attack type mode to change direction
             currentAttackTypeMode = (currentAttackTypeMode == ScriptItemAttackType.RIGHT_TO_LEFT ? ScriptItemAttackType.LEFT_TO_RIGHT : ScriptItemAttackType.RIGHT_TO_LEFT);
             Logger.Log(nameof(Orchestrator), $"Changing ScriptItemAttackType to [{currentAttackTypeMode}]", Logger.LoggerPriority.MEDIUM);
+        }
+
+        private static void HandleAttackSpecterMode()
+        {
+            // Problem: First time enter
+            // Problem: What if spectermode is deactivated, attacks will continue
+            // Problem: Specter mode only needs to be activated in combat mode, not anywhere else
+
+            // Compose random attack script based on direction and run it
+            Script attackScript = ScriptComposer.Compose(GetRandomSpecterAttack());
+            core.RunScript(attackScript);
+
+            // Toggle attack type mode to change direction
+            currentAttackTypeMode = (currentAttackTypeMode == ScriptItemAttackType.RIGHT_TO_LEFT ? ScriptItemAttackType.LEFT_TO_RIGHT : ScriptItemAttackType.RIGHT_TO_LEFT);
+            Logger.Log(nameof(Orchestrator), $"Changing ScriptItemSpecterAttackType to [{currentAttackTypeMode}]", Logger.LoggerPriority.MEDIUM);
+
+            // Need to handle exit spectermode somewhere
+            int switchTime = OrchestratorModeCycleStrategyConfig.cycleConfigTime[orchestratorMode];
+
+            if (sw.Elapsed.TotalMilliseconds > switchTime)
+            {
+                Logger.Log(nameof(Orchestrator), $"Detected switchtime in [{orchestratorMode}], exiting specter mode. ", Logger.LoggerPriority.MEDIUM);
+                core.RunScript(ScriptComposer.Compose(ToggleSpecterMode));
+
+                Logger.Log(nameof(Orchestrator), $"End of SpecterMode reached, changing Orchestrator mode from [{orchestratorMode}] to [{OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode]}]", Logger.LoggerPriority.HIGH);
+                orchestratorMode = OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode];
+
+                sw.Restart();
+            }
         }
 
         private static void handleChangeChannelMode() {
@@ -75,9 +109,9 @@ namespace MSBotV2
         private static List<ScriptItem>? GetRandomAttack()
         {
             // Attack scripts HAVE to be symmetric
-            int relevantKeySpace = (int) (attackPool.Count * 0.5);
+            int relevantKeySpace = (int) (CreateAttackScriptsPool().Count * 0.5);
 
-            var attackPoolEnumerator = attackPool
+            var attackPoolEnumerator = CreateAttackScriptsPool()
                 .Where(x => x.Value == (currentAttackTypeMode == ScriptItemAttackType.RIGHT_TO_LEFT ? ScriptItemAttackType.LEFT_TO_RIGHT : ScriptItemAttackType.RIGHT_TO_LEFT))
                 .GetEnumerator();
 
@@ -87,6 +121,29 @@ namespace MSBotV2
             while (attackPoolEnumerator.MoveNext())
             {
                 if (attackMoveCounter++ == randomAttackMove) {
+                    return attackPoolEnumerator.Current.Key;
+                }
+            }
+
+            return null;
+        }
+
+        public static List<ScriptItem>? GetRandomSpecterAttack()
+        {
+            // Attack scripts HAVE to be symmetric
+            int relevantKeySpace = (int)(CreateAttackSpecterScriptsPool().Count * 0.5);
+
+            var attackPoolEnumerator = CreateAttackSpecterScriptsPool()
+                .Where(x => x.Value == (currentAttackTypeMode == ScriptItemAttackType.RIGHT_TO_LEFT ? ScriptItemAttackType.LEFT_TO_RIGHT : ScriptItemAttackType.RIGHT_TO_LEFT))
+                .GetEnumerator();
+
+            int attackMoveCounter = 0;
+            int randomAttackMove = new Random().Next(0, relevantKeySpace);
+
+            while (attackPoolEnumerator.MoveNext())
+            {
+                if (attackMoveCounter++ == randomAttackMove)
+                {
                     return attackPoolEnumerator.Current.Key;
                 }
             }
@@ -130,12 +187,16 @@ namespace MSBotV2
                     // use predefined list for actions to test during this phase
                     // potential problem, only the latest o-mode will be set afterwards because it is sequential, priority?
                     // Could make a priorityqueue of items found and get best one
-                    foreach (TemplateMatching.TemplateMatchingAction templateMatchingAction in TemplateMatchingConfig.templateActionsInterruptingOrchestrator) {
+                    foreach (TemplateMatchingAction templateMatchingAction in TemplateMatchingConfig.templateActionsInterruptingOrchestrator) {
                         OrchestratorMode? polledOrchestratorMode = PollTemplateMatching(templateMatchingAction);
 
                         if (polledOrchestratorMode != null)
                         {
                             Logger.Log(nameof(Orchestrator), $"Interrupting cycle by TemplateMatching, changing Orchestrator mode from [{orchestratorMode}] to [{(OrchestratorMode)polledOrchestratorMode}]", Logger.LoggerPriority.HIGH);
+
+                            // Ugly, seek fix! Timer needs to be reset when first detecting Specter gauge is full
+                            // Or maybe it works?
+                            sw.Restart();
 
                             orchestratorMode = (OrchestratorMode)polledOrchestratorMode;
                             return;
@@ -162,6 +223,7 @@ namespace MSBotV2
     public enum OrchestratorMode
     { 
         MODE_ATTACK,
+        MODE_ATTACK_SPECTER,
         MODE_CC,
         MODE_BUFF,
     }
@@ -175,6 +237,7 @@ namespace MSBotV2
         public static Dictionary<OrchestratorMode, int> cycleConfigTime { get; set; } = new Dictionary<OrchestratorMode, int>()
         {
             { OrchestratorMode.MODE_ATTACK, 1000 * 120 },
+            { OrchestratorMode.MODE_ATTACK_SPECTER, 1000 * 30 },
             { OrchestratorMode.MODE_CC, 0 },
             { OrchestratorMode.MODE_BUFF, 0 },
         };
@@ -184,6 +247,9 @@ namespace MSBotV2
             { OrchestratorMode.MODE_BUFF, OrchestratorMode.MODE_ATTACK },
             { OrchestratorMode.MODE_ATTACK, OrchestratorMode.MODE_CC },
             { OrchestratorMode.MODE_CC, OrchestratorMode.MODE_BUFF },
+
+            // One way
+            { OrchestratorMode.MODE_ATTACK_SPECTER, OrchestratorMode.MODE_ATTACK },
         };
     }
 

@@ -80,10 +80,10 @@ namespace MSBotV2
 
             if(!foundMatch) Logger.Log(nameof(TemplateMatching), $"No match was found for TemplateMatchingAction [{templateMatchingAction}])", Logger.LoggerPriority.HIGH);
 
-            Mouse.SetCursorPosition((x_coordinate, y_coordinate));
-            Thread.Sleep(300);
-
             if (foundMatch) {
+                Mouse.SetCursorPosition((x_coordinate, y_coordinate));
+                Thread.Sleep(300);
+
                 // Check if mouse click has to be performed
                 switch (Config.TemplateMatchingConfig.TemplateMatchingMouseClicks[templateMatchingAction])
                 {
@@ -130,6 +130,7 @@ namespace MSBotV2
             PENALTY,
             INVENTORY_CASH,
             INVENTORY_PET,
+            SPECTER_GAUGE_FULL
         }
     }
 

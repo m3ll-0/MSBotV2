@@ -23,13 +23,22 @@ namespace MSBotV2
             return map;
         }
 
+        public static Dictionary<List<ScriptItem>, ScriptItemAttackType> CreateAttackSpecterScriptsPool()
+        {
+            Dictionary<List<ScriptItem>, ScriptItemAttackType> map = new Dictionary<List<ScriptItem>, ScriptItemAttackType>();
+            map.Add(ScriptAttackSpecterLeftToRightVariation1, ScriptItemAttackType.LEFT_TO_RIGHT);
+            map.Add(ScriptAttackSpecterRightToLeftVariation1, ScriptItemAttackType.RIGHT_TO_LEFT);
+
+            return map;
+        }
+
         public enum ScriptItemAttackType
         {
             LEFT_TO_RIGHT,
             RIGHT_TO_LEFT,
         }
 
-
+        // ATTACK SCRIPTS NORMAL MODE
         public static List<ScriptItem> ScriptAttackLeftToRightVariation1 = new List<ScriptItem>()
             {
                 new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
@@ -80,6 +89,40 @@ namespace MSBotV2
                 new ScriptItem(AtomicParallelEvents.AttackNormal),
                 new ScriptItem(AtomicParallelEvents.AttackCube),
                 new ScriptItem(AtomicParallelEvents.DashComboLeft),
+            };
+
+
+        // ATTACK SPECTER SCRIPTS
+        public static List<ScriptItem> ScriptAttackSpecterLeftToRightVariation1 = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeUp),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRight),
+                new ScriptItem(AtomicParallelEvents.DashComboRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRight),
+                new ScriptItem(AtomicParallelEvents.AttackCube),
+                new ScriptItem(AtomicParallelEvents.DashComboRight),
+            };
+
+        public static List<ScriptItem> ScriptAttackSpecterRightToLeftVariation1 = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeft),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeft),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeUp),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeft),
+                new ScriptItem(AtomicParallelEvents.DashComboLeft),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeft),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeft),
+                new ScriptItem(AtomicParallelEvents.AttackCube),
+                new ScriptItem(AtomicParallelEvents.DashComboLeft),
+            };
+
+        public static List<ScriptItem> ToggleSpecterMode = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
+                new ScriptItem(AtomicParallelEvents.ToggleSpecterMode),
             };
 
         public static List<ScriptItem> ExitMapRightCaveOfRepose = new List<ScriptItem>()

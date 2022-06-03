@@ -46,6 +46,18 @@ namespace MSBotV2
             
             return dynamicScriptChangeChannelRoot;
         }
+
+        public static DynamicScript BuildSpecterGaugeFullDynamicScript()
+        {
+            DynamicScript dynamicScriptChangeChannelRoot = new DynamicScript(
+                null,
+                FinishedScripts.ToggleSpecterMode,
+                null,
+                null
+                );
+
+            return dynamicScriptChangeChannelRoot;
+        }
     }
 
     public enum DynamicScriptType { 
