@@ -1,10 +1,5 @@
-﻿using MSBot.Models.Key;
-using System;
-using System.Collections.Generic;
+﻿using MSBotV2.Models.Key;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MSBotV2
 {
@@ -13,6 +8,9 @@ namespace MSBotV2
         protected int numberOfAliveParallelCommandThreads = 0;
 
         public void RunScript(Script script) {
+
+            Logger.Log(nameof(Script), $"Invoking script", Logger.LoggerPriority.INFO);
+
 
             for (; ; ) {
                 // Peek to see if potentialParallelEvent is ready to be invoked
@@ -64,10 +62,9 @@ namespace MSBotV2
         }
 
         protected void InvokeParallelCommand(ParallelCommand parallelCommand) {
-            //Console.WriteLine(parallelCommand.Key);
-            //Thread.Sleep(parallelCommand.TimeRunning);
 
-            if (parallelCommand.Key == Keyboard.DirectXKeyStrokes.DIK_PAUSE) {
+            if (parallelCommand.Key == Keyboard.DirectXKeyStrokes.DIK_PAUSE)
+            {
                 Thread.Sleep(parallelCommand.TimeRunning);
             }
 

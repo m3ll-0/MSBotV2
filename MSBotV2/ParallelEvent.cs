@@ -10,7 +10,7 @@ namespace MSBotV2
     public class ParallelEvent : IIndexedObject
     {
         public int Index { get; set; }
-
+            
         public int Priority { get; private set; }
         public PriorityQueue<ParallelCommand> ParallelCommands { get; private set; }
 

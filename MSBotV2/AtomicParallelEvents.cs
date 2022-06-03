@@ -1,4 +1,4 @@
-﻿using MSBot.Models.Key;
+﻿using MSBotV2.Models.Key;
 using MSBotV2.PriorityQueue;
 using System;
 using System.Collections.Generic;
@@ -37,9 +37,14 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 100, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 800, 0),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 300),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 700)
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 700),
+                //new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_Z, 200, 720)
+
+                //new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 100, 0),
+                //new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 300),
+                //new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 700)
             };
         }
 
@@ -52,12 +57,59 @@ namespace MSBotV2
             };
         }
 
+        public static List<ParallelCommand> JumpDown()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_DOWNARROW, 500, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 100, 0),
+
+            };
+        }
+
         public static List<ParallelCommand> WalkLeftShort()
         {
 
             return new List<ParallelCommand>()
             {
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFTARROW, 750, 0),
+            };
+        }
+
+        public static List<ParallelCommand> NavigateWalkLeftChuChuToFiveColorHillPath()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFTARROW, 575, 0),
+            };
+        }
+
+        public static List<ParallelCommand> NavigateWalkLeftFiveColorHillPathToMottledForest1()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFTARROW, 305, 0),
+            };
+        }
+
+        public static List<ParallelCommand> NavigateWalkLeftMottledForest1ToMottledForest2()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFTARROW, 200, 0),
+            };
+        }
+
+        public static List<ParallelCommand> NavigateWalkLeftMottledForest2ToMottledForest3()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFTARROW, 375, 0),
             };
         }
 
@@ -99,6 +151,15 @@ namespace MSBotV2
             return new List<ParallelCommand>()
             {
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 600, 0),
+            };
+        }
+
+        public static List<ParallelCommand> PauseMediumLong()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 1300, 0),
             };
         }
 
@@ -161,7 +222,7 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 800, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 1200, 0),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 300),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 700),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_Z, 200, 720)
@@ -311,7 +372,7 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F9, 100, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F9, 1000, 0),
             };
         }
 
@@ -369,5 +430,22 @@ namespace MSBotV2
             };
         }
 
+        public static List<ParallelCommand> OpenInventory()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_I, 200, 0),
+            };
+        }
+
+        public static List<ParallelCommand> CloseInventory()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_I, 200, 0),
+            };
+        }
     }
 }

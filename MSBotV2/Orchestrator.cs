@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MSBotV2.Config;
 using static MSBotV2.FinishedScripts;
+using static MSBotV2.TemplateMatching;
 
 namespace MSBotV2
 {
@@ -50,11 +52,11 @@ namespace MSBotV2
 
             // Toggle attack type mode to change direction
             currentAttackTypeMode = (currentAttackTypeMode == ScriptItemAttackType.RIGHT_TO_LEFT ? ScriptItemAttackType.LEFT_TO_RIGHT : ScriptItemAttackType.RIGHT_TO_LEFT);
-            Console.WriteLine($"Changed currentAttackTypeMode to [{currentAttackTypeMode}]");
+            Logger.Log(nameof(Orchestrator), $"Changing ScriptItemAttackType to [{currentAttackTypeMode}]", Logger.LoggerPriority.MEDIUM);
         }
 
         private static void handleChangeChannelMode() {
-            Console.WriteLine("Changing channel");
+            Logger.Log(nameof(Orchestrator), $"Changing channel {currentAttackTypeMode}", Logger.LoggerPriority.MEDIUM);
 
             // Run the script
             core.RunScript(ScriptComposer.Compose(MapChangeChannelScripts.mapChangeChannelScripts[currentMap]));
@@ -65,7 +67,7 @@ namespace MSBotV2
 
         private static void handleBuffMode()
         {
-            Console.WriteLine("Buffing!");
+            Logger.Log(nameof(Orchestrator), $"Buffing", Logger.LoggerPriority.MEDIUM);
 
             core.RunScript(ScriptComposer.Compose(Buff));
         }
@@ -92,13 +94,27 @@ namespace MSBotV2
             return null;
         }
 
-        private static OrchestratorMode? PollTemplateMatching(TemplateMatching.TemplateMatchingAction templateMatchingAction) {
+        /*
+         * Does TemplateMatching on a specified TemplateMatchingAction and invokes a corresponding script. Returns the corresponding OrchestratorMode that
+         * will be set afterwards which might interrupt the current cycle.
+         */
+        private static OrchestratorMode? PollTemplateMatching(TemplateMatchingAction templateMatchingAction) {
 
-            bool foundMatch = TemplateMatching.TemplateMatch(templateMatchingAction);
+            var TemplateMatchingResult = TemplateMatch(templateMatchingAction);
+
+            // Find corresponding dynamic script
+            var templateMatchingScriptTriple = TemplateMatchingConfig.TemplateMatchingResults.Where(x => x.Item1 == templateMatchingAction).First();
+            DynamicScript dynamicScript = TemplateMatchingResult.Item1 ? templateMatchingScriptTriple.Item2 : templateMatchingScriptTriple.Item3;
+
+            if (dynamicScript != null) {
+                // Invoke corresponding script
+                Logger.Log(nameof(TemplateMatching), $"Invoking dynamic script for TemplateMatchingAction {templateMatchingAction})", Logger.LoggerPriority.MEDIUM);
+                dynamicScript.Invoke();
+            }
 
             // Find corresponding action
-            var templateMatchingTriple = TemplateMatchingConfig.TemplateMatchingOrchestratorModes.Where(x => x.Item1 == templateMatchingAction).First();
-            OrchestratorMode? orchestratorMode = foundMatch ? templateMatchingTriple.Item2 : templateMatchingTriple.Item3;
+            var templateMatchingOrchestratorModeTriple = TemplateMatchingConfig.TemplateMatchingOrchestratorModes.Where(x => x.Item1 == templateMatchingAction).First();
+            OrchestratorMode? orchestratorMode = TemplateMatchingResult.Item1 ? templateMatchingOrchestratorModeTriple.Item2 : templateMatchingOrchestratorModeTriple.Item3;
 
             return orchestratorMode;
         }
@@ -113,11 +129,14 @@ namespace MSBotV2
                     // poll template matching for each defined action
                     // use predefined list for actions to test during this phase
                     // potential problem, only the latest o-mode will be set afterwards because it is sequential, priority?
+                    // Could make a priorityqueue of items found and get best one
                     foreach (TemplateMatching.TemplateMatchingAction templateMatchingAction in TemplateMatchingConfig.templateActionsInterruptingOrchestrator) {
                         OrchestratorMode? polledOrchestratorMode = PollTemplateMatching(templateMatchingAction);
 
                         if (polledOrchestratorMode != null)
                         {
+                            Logger.Log(nameof(Orchestrator), $"Interrupting cycle by TemplateMatching, changing Orchestrator mode from [{orchestratorMode}] to [{(OrchestratorMode)polledOrchestratorMode}]", Logger.LoggerPriority.HIGH);
+
                             orchestratorMode = (OrchestratorMode)polledOrchestratorMode;
                             return;
                         }
@@ -126,12 +145,13 @@ namespace MSBotV2
                     int switchTime = OrchestratorModeCycleStrategyConfig.cycleConfigTime[orchestratorMode];
                     if (sw.Elapsed.TotalMilliseconds > switchTime)
                     {
+                        Logger.Log(nameof(Orchestrator), $"Normal Cycle, changing OrchestratorMode from [{orchestratorMode}] to [{OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode]}]", Logger.LoggerPriority.MEDIUM);
+
                         orchestratorMode = OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode];
                         sw.Restart();
-                        Console.WriteLine($"Changed OrchestratorMode to [{orchestratorMode}]");
                     }
                     else {
-                        Console.WriteLine($"{sw.Elapsed.TotalMilliseconds} ||NOT|| {switchTime} ");
+                        Logger.Log(nameof(Orchestrator), $"Lapsed {sw.Elapsed.TotalMilliseconds} / {switchTime} ", Logger.LoggerPriority.LOW);
                     }
 
                     break;
@@ -190,17 +210,6 @@ namespace MSBotV2
             { Map.MOTTLED_FOREST_3, ScriptItemAttackType.RIGHT_TO_LEFT },
         };
     }
-
-    static class TemplateMatchingConfig
-    {
-        public static List<(TemplateMatching.TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)> TemplateMatchingOrchestratorModes = new List<(TemplateMatching.TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)>()
-        {
-            new (TemplateMatching.TemplateMatchingAction.DEATH_SCREEN, OrchestratorMode.MODE_BUFF, null)
-        };
-
-        public static List<TemplateMatching.TemplateMatchingAction> templateActionsInterruptingOrchestrator = new List<TemplateMatching.TemplateMatchingAction>()
-        {
-            TemplateMatching.TemplateMatchingAction.DEATH_SCREEN
-        };
-    }
+        
+    
 }

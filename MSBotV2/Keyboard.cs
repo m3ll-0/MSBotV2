@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MSBot.Models.Key
+namespace MSBotV2.Models.Key
 {
     public class Keyboard
     {
@@ -39,6 +39,7 @@ namespace MSBot.Models.Key
         /// </summary>
         public enum DirectXKeyStrokes
         {
+            DIK_MOUSE = 0x99,
             DIK_PAUSE = 0x00,
             DIK_ESCAPE = 0x01,
             DIK_1 = 0x02,

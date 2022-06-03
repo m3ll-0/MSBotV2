@@ -150,6 +150,232 @@ namespace MSBotV2
                 new ScriptItem(AtomicParallelEvents.PauseMedium),
             };
 
+        public static List<ScriptItem> NavigateToLastMap = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
+                new ScriptItem(AtomicParallelEvents.AttackPulse),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
+            };
+
+        public static List<ScriptItem> NavigateChuChuToFiveColorHillPath = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.PauseLong),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleRight),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
+                new ScriptItem(AtomicParallelEvents.NavigateWalkLeftChuChuToFiveColorHillPath),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
+                new ScriptItem(AtomicParallelEvents.EnterPortal),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
+            };
+
+        public static List<ScriptItem> NavigateFiveColorHillPathToMottledForest1 = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.WalkLeftShort),
+                new ScriptItem(AtomicParallelEvents.TurnRight),
+                // Prevent Birdshark
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+
+                new ScriptItem(AtomicParallelEvents.DashComboRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                
+                new ScriptItem(AtomicParallelEvents.ToggleSpecterMode),
+                new ScriptItem(AtomicParallelEvents.TurnLeft),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.JumpDown),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
+
+                new ScriptItem(AtomicParallelEvents.NavigateWalkLeftFiveColorHillPathToMottledForest1 ),
+                new ScriptItem(AtomicParallelEvents.EnterPortal),
+                new ScriptItem(AtomicParallelEvents.PauseMediumLong),
+                new ScriptItem(AtomicParallelEvents.ToggleSpecterMode)
+            };
+
+        public static List<ScriptItem> NavigateMottledForest1ToMottledForest2 = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.WalkLeftShort),
+                new ScriptItem(AtomicParallelEvents.TurnRight),
+                // Prevent Birdshark
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+
+                new ScriptItem(AtomicParallelEvents.DashComboRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+
+                new ScriptItem(AtomicParallelEvents.ToggleSpecterMode),
+                new ScriptItem(AtomicParallelEvents.TurnLeft),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.JumpDown),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
+
+                new ScriptItem(AtomicParallelEvents.NavigateWalkLeftMottledForest1ToMottledForest2 ),
+                new ScriptItem(AtomicParallelEvents.EnterPortal),
+                new ScriptItem(AtomicParallelEvents.PauseMediumLong),
+                new ScriptItem(AtomicParallelEvents.ToggleSpecterMode)
+
+
+                //new ScriptItem(AtomicParallelEvents.WalkLeftShort),
+                //new ScriptItem(AtomicParallelEvents.TurnRight),
+                //// Prevent Birdshark
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+                //new ScriptItem(AtomicParallelEvents.AttackNormal),
+
+                //new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                //new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                //new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                //new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                //new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                //new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                //new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                //new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                //new ScriptItem(AtomicParallelEvents.PauseMedium),
+
+                //new ScriptItem(AtomicParallelEvents.ToggleSpecterMode),
+                //new ScriptItem(AtomicParallelEvents.TurnLeft),
+                //new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                //new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                //new ScriptItem(AtomicParallelEvents.AttackSwipe),
+
+                //new ScriptItem(AtomicParallelEvents.NavigateWalkLeftMottledForest1ToMottledForest2 ),
+                //new ScriptItem(AtomicParallelEvents.EnterPortal),
+                //new ScriptItem(AtomicParallelEvents.PauseLong),
+                //new ScriptItem(AtomicParallelEvents.ToggleSpecterMode)
+            };
+
+        public static List<ScriptItem> NavigateMottledForest2ToMottledForest3 = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.WalkLeftShort),
+                new ScriptItem(AtomicParallelEvents.TurnRight),
+                // Prevent Birdshark
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+                new ScriptItem(AtomicParallelEvents.AttackNormal),
+
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+
+                new ScriptItem(AtomicParallelEvents.DashComboRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+
+                new ScriptItem(AtomicParallelEvents.ToggleSpecterMode),
+                new ScriptItem(AtomicParallelEvents.TurnLeft),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+                new ScriptItem(AtomicParallelEvents.AttackSwipe),
+
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+                new ScriptItem(AtomicParallelEvents.JumpDown),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
+
+                new ScriptItem(AtomicParallelEvents.NavigateWalkLeftMottledForest2ToMottledForest3 ),
+                new ScriptItem(AtomicParallelEvents.EnterPortal),
+                new ScriptItem(AtomicParallelEvents.PauseMediumLong),
+                new ScriptItem(AtomicParallelEvents.ToggleSpecterMode)
+            };
+
+            public static List<ScriptItem> OpenInventory = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.PauseLong),
+                new ScriptItem(AtomicParallelEvents.OpenInventory)
+            };
+
+            public static List<ScriptItem> CloseInventory = new List<ScriptItem>()
+                {
+                    new ScriptItem(AtomicParallelEvents.PauseLong),
+                    new ScriptItem(AtomicParallelEvents.CloseInventory)
+                };
+
+
+        //public static List<ScriptItem> NavigateChuChuToFiveColorHillPathWalkLeft = new List<ScriptItem>()
+        //    {
+        //        new ScriptItem(),
+        //    };
+
+
+
 
 
 

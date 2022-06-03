@@ -10,9 +10,12 @@ namespace MSBotV2
 {
     public static class Mouse
     {
-        public static bool UseScreenScaling = false;
+        public static bool UseScreenScaling = true;
 
-        public static void SetCursorPosition(int x_coordinate_needle_undetermined, int y_coordinate_needle_undetermined) {
+        public static void SetCursorPosition((int, int) coordinates_undetermined) {
+
+            int x_coordinate_needle_undetermined = coordinates_undetermined.Item1;
+            int y_coordinate_needle_undetermined = coordinates_undetermined.Item2;
 
             // x and y-coordinates may be physical or scaled depending on when VM is ran or not.
             (int, int) mapleStoryWindowCoordinates = GetGameWindowCoordinates();
@@ -20,7 +23,7 @@ namespace MSBotV2
             int x_coordinate_mswindow_undetermined = mapleStoryWindowCoordinates.Item1;
             int y_coordinate_mswindow_undetermined = mapleStoryWindowCoordinates.Item2;
 
-            Console.Write($"XmapleStoryWindowCoordinates: {mapleStoryWindowCoordinates.Item1} || {mapleStoryWindowCoordinates.Item2}");
+            Logger.Log(nameof(Mouse), $"Found coordinates for Maplestory {mapleStoryWindowCoordinates.Item1}, {mapleStoryWindowCoordinates.Item2})", Logger.LoggerPriority.MEDIUM);
 
             // todo move to config
             double x_coordinate_scaling_factor = 0.793650794;
@@ -50,8 +53,7 @@ namespace MSBotV2
                     break;
             }
 
-            Console.Write($"Result: {x_coordinate_result} || {y_coordinate_result}");
-
+            Logger.Log(nameof(Mouse), $"Found coordinate results to click {x_coordinate_result}, {y_coordinate_result})", Logger.LoggerPriority.MEDIUM);
 
             // Add 10px as padding because template matching selects the first pixel found
             // Another implementation is only selecting the middle of the image as a needle, coud be looked at
@@ -63,12 +65,26 @@ namespace MSBotV2
         }
 
         private static (int,int) GetGameWindowCoordinates() {
-            Process[] processes = Process.GetProcessesByName("Microsoft.Photos");
+            Process[] processes = Process.GetProcessesByName("MapleStory");
+            //Process[] processes = Process.GetProcessesByName("Microsoft.Photos");
             Process maplestory = processes[0];
             IntPtr ptr = maplestory.MainWindowHandle;
             Rect MapleStoryRect = new Rect();
             GetWindowRect(ptr, ref MapleStoryRect);
             return (MapleStoryRect.Left, MapleStoryRect.Top);
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern void mouse_event(long dwFlags, long dx, long dy, long cButtons, long dwExtraInfo);
+
+        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        private const int MOUSEEVENTF_LEFTUP = 0x04;
+        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+        private const int MOUSEEVENTF_RIGHTUP = 0x10;
+
+        public static void DoMouseClick()
+        {
+            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
         }
 
         [DllImport("user32.dll")]

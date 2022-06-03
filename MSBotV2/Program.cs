@@ -1,5 +1,5 @@
 ﻿
-using MSBot.Models.Key;
+using MSBotV2.Models.Key;
 using MSBotV2;
 using MSBotV2.PriorityQueue;
 using System.Drawing.Imaging;
@@ -8,7 +8,7 @@ using System.Drawing.Imaging;
 /// http://www.gamespp.com/directx/directInputKeyboardScanCodes.html
 /// </summary>
 /// 
-namespace MSBot
+namespace MSBotV2
 {
 
     public class Program
@@ -18,12 +18,29 @@ namespace MSBot
         {
             TemplateMatching.LoadNeedlesFromDiskToMemory();
 
-            Console.WriteLine("Starting in 3 seconds.");
+            Logger.Log(nameof(Program), $"Starting program in 3 seconds", Logger.LoggerPriority.MEDIUM);
             Thread.Sleep(3000);
+            Logger.Log(nameof(Program), $"MSBot has started!", Logger.LoggerPriority.MEDIUM);
 
-            TemplateMatching.TemplateMatch(TemplateMatching.TemplateMatchingAction.DEATH_SCREEN);
+            //DynamicScriptBuilder.BuildOpenPetDynamicScript().Invoke();
 
-            //Orchestrator.Orchestrate();
+            Orchestrator.Orchestrate();
+
+
+            //Console.WriteLine("Starting in 3 seconds.");
+
+            //TemplateMatching.TemplateMatch(TemplateMatching.TemplateMatchingAction.DEATH_SCREEN);
+
+
+            //List<ScriptItem> x = FinishedScripts.NavigateChuChuToFiveColorHillPath
+            //    .Concat(FinishedScripts.NavigateFiveColorHillPathToMottledForest1)
+            //    .Concat(FinishedScripts.NavigateMottledForest1ToMottledForest2)
+            //    .Concat(FinishedScripts.NavigateMottledForest2ToMottledForest3).ToList();
+
+            //new Core().RunScript(ScriptComposer.Compose(x));
+
+
+            //new Core().RunScript(ScriptComposer.Compose(FinishedScripts.NavigateChuChuToFiveColorHillPath));
         }
 
         public static void demo() {

@@ -25,7 +25,7 @@ namespace MSBotV2
             foreach(TemplateMatchingAction templateMatchingAction in Enum.GetValues(typeof(TemplateMatchingAction)))
             {
                 // For each existing TemplateMatchingAction, load image in memory
-                string needleFilename = TemplateMatchingActionFile.templateMatchingActionFiles[templateMatchingAction];
+                string needleFilename = Config.TemplateMatchingConfig.templateMatchingActionFiles[templateMatchingAction];
 
                 var needleTemplateImagePath = Path.Combine(imageDirectory, needleFilename);
                 Image<Bgr, byte> needleTemplateImage = new Image<Bgr, byte>(needleTemplateImagePath);
@@ -34,9 +34,9 @@ namespace MSBotV2
             };
         }
 
-        public static bool TemplateMatch(TemplateMatchingAction templateMatchingAction) {
+        public static (bool, (int, int)) TemplateMatch(TemplateMatchingAction templateMatchingAction) {
 
-            string needleFileName = TemplateMatchingActionFile.templateMatchingActionFiles[templateMatchingAction];
+            string needleFileName = Config.TemplateMatchingConfig.templateMatchingActionFiles[templateMatchingAction];
 
             // Create haystack (screenshot, but keep it in memory as optimization)
             var haystack = ScreenCapture.CaptureActiveWindow();
@@ -52,12 +52,11 @@ namespace MSBotV2
             double Threshold = 0.8; 
 
             Image<Gray, float> Matches = haystackSourceGrayscaleImage.MatchTemplate(needleTemplateGrayscaleImage, TemplateMatchingType.CcoeffNormed);
-
             bool foundMatch = false;
             
             // Get the physical coordinates
-            int x_coordinate_physical = 0;
-            int y_coordinate_physical = 0;
+            int x_coordinate = 0;
+            int y_coordinate = 0;
 
             for (int y = 0; y < Matches.Data.GetLength(0); y++)
             {
@@ -66,24 +65,41 @@ namespace MSBotV2
                     if (Matches.Data[y, x, 0] >= Threshold) //Check if its a valid match
                     {
                         foundMatch = true;
-                        Console.WriteLine($"Found a match: ({x},{y})");
-                        x_coordinate_physical = x;
-                        y_coordinate_physical = y;
+                        x_coordinate = x;
+                        y_coordinate = y;
+
+                        Logger.Log(nameof(TemplateMatching), $"A match was found for templateMatchingAction [{templateMatchingAction}] on coordinates: ({x},{y})", Logger.LoggerPriority.HIGH);
+
+                        // Break nested loop
+                        goto LoopEnd;
                     }
                 }
             }
 
-            // Is accurate when placed at 0,0 without notepadleft!)
-            Mouse.SetCursorPosition(x_coordinate_physical, y_coordinate_physical);
+            LoopEnd:
 
-            // Find corresponding action
-            var templateMatchingTriple = TemplateMatchingResult.TemplateMatchingResults.Where(x => x.Item1 == templateMatchingAction).First();
-            List<ScriptItem> script = foundMatch ? templateMatchingTriple.Item2 : templateMatchingTriple.Item3;
+            if(!foundMatch) Logger.Log(nameof(TemplateMatching), $"No match was found for TemplateMatchingAction [{templateMatchingAction}])", Logger.LoggerPriority.HIGH);
 
-            // Invoke script
-            //new Core().RunScript(ScriptComposer.Compose(script));
+            Mouse.SetCursorPosition((x_coordinate, y_coordinate));
+            Thread.Sleep(300);
 
-            return foundMatch;
+            if (foundMatch) {
+                // Check if mouse click has to be performed
+                switch (Config.TemplateMatchingConfig.TemplateMatchingMouseClicks[templateMatchingAction])
+                {
+                    case TemplateMatchingMouseClickType.MOUSE_CLICK_SINGLE:
+                        Mouse.DoMouseClick();
+                        break;
+                    case TemplateMatchingMouseClickType.MOUSE_CLICK_DOUBLE:
+                        Mouse.DoMouseClick();
+                        Mouse.DoMouseClick();
+                        break;
+                    case TemplateMatchingMouseClickType.NONE:
+                        break;
+                }
+            }
+
+            return (foundMatch, (x_coordinate, y_coordinate));
         }
 
 
@@ -101,25 +117,19 @@ namespace MSBotV2
             public int Bottom { get; set; }
         }
 
-        static class TemplateMatchingActionFile
+        public enum TemplateMatchingMouseClickType
         {
-            public static Dictionary<TemplateMatchingAction, string> templateMatchingActionFiles { get; set; } = new Dictionary<TemplateMatchingAction, string>()
-            {
-                { TemplateMatchingAction.DEATH_SCREEN, "needle_deathscreen.png" },
-            };
-        }
-
-        static class TemplateMatchingResult
-        {
-            public static List<(TemplateMatchingAction, List<ScriptItem>, List<ScriptItem>)> TemplateMatchingResults = new List<(TemplateMatchingAction, List<ScriptItem>, List<ScriptItem>)>()
-            {
-                new (TemplateMatchingAction.DEATH_SCREEN, FinishedScripts.Buff, FinishedScripts.Buff)
-            };
+            MOUSE_CLICK_SINGLE,
+            MOUSE_CLICK_DOUBLE,
+            NONE
         }
 
         public enum TemplateMatchingAction
         {
-            DEATH_SCREEN
+            DEATH_SCREEN,
+            PENALTY,
+            INVENTORY_CASH,
+            INVENTORY_PET,
         }
     }
 
