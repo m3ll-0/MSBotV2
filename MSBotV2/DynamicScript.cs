@@ -28,7 +28,7 @@ namespace MSBotV2
         public void Invoke()
         {
             if (ScriptItems != null) {
-                new Core().RunScript(ScriptComposer.Compose(ScriptItems));
+                new Core().RunDynamicScript(ScriptComposer.Compose(ScriptItems));
             }
 
             if (TemplateMatchingAction == null)
@@ -40,7 +40,6 @@ namespace MSBotV2
 
             switch (templateMatchingResult.Item1) {
                 case true:
-
                     if (DynamicScriptNodeTrue != null) {
                         DynamicScriptNodeTrue.Invoke();
                     }

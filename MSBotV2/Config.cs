@@ -11,6 +11,21 @@ namespace MSBotV2
     {
         public static class TemplateMatchingConfig
         {
+            public static Dictionary<TemplateMatchingAction, DateTime> TemplateMatchingActionEventTimes = new Dictionary<TemplateMatchingAction, DateTime>()
+            {
+                { TemplateMatchingAction.SPECTER_GAUGE_FULL, new DateTime(1999, 8, 11, 08, 15, 20)},
+                { TemplateMatchingAction.PENALTY, new DateTime(1999, 8, 11, 08, 15, 20)},
+                { TemplateMatchingAction.DEATH_SCREEN, new DateTime(1999, 8, 11, 08, 15, 20)},
+            };
+
+            public static Dictionary<TemplateMatchingAction, int> TemplateMatchingActionTimeouts = new Dictionary<TemplateMatchingAction, int>()
+            {
+                { TemplateMatchingAction.SPECTER_GAUGE_FULL, 30000},
+                { TemplateMatchingAction.PENALTY, 0},
+                { TemplateMatchingAction.DEATH_SCREEN, 0},
+
+            };
+
             public static List<(TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)> TemplateMatchingOrchestratorModes = new List<(TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)>()
             {
                 new (TemplateMatchingAction.DEATH_SCREEN, OrchestratorMode.MODE_ATTACK, null),

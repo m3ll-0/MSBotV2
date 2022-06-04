@@ -16,17 +16,36 @@ namespace MSBotV2
         // TODO, activate - deactivate specter manually exit map 3, otherwise on mistake it can still go
         static void Main(string[] args)
         {
-            TemplateMatching.LoadNeedlesFromDiskToMemory();
 
             Logger.Log(nameof(Program), $"Starting program in 3 seconds", Logger.LoggerPriority.MEDIUM);
             Thread.Sleep(3000);
             Logger.Log(nameof(Program), $"MSBot has started!", Logger.LoggerPriority.MEDIUM);
 
-            //DynamicScriptBuilder.BuildOpenPetDynamicScript().Invoke();
+            Launch();
+            //demo();
+        }                                                                                                                                z
+                                                                                                                                         z
+        public static void Launch() {
+            TemplateMatching.LoadNeedlesFromDiskToMemory();
+
+            new Thread(new ThreadStart(() => { Orchestrator.Orchestrate(); })).Start();
+            new Thread(new ThreadStart(() => { Orchestrator.PollTemplateMatchingThread(); })).Start();
+        }
+
+        public static void demo() {
+
+            //List<ScriptItem> ChangeChannel = new List<ScriptItem>()
+            //{
+            //    new ScriptItem(AtomicParallelEvents.ChangeChannel),
+            //    new ScriptItem(AtomicParallelEvents.PauseMedium),
+            //    new ScriptItem(AtomicParallelEvents.ChangeChannel),
+            //};
+
+            TemplateMatching.LoadNeedlesFromDiskToMemory();
+            DynamicScriptBuilder.BuildOpenPetDynamicScript().Invoke();
 
             //Orchestrator.GetRandomSpecterAttack();
 
-            Orchestrator.Orchestrate();
 
 
             //Console.WriteLine("Starting in 3 seconds.");
@@ -39,22 +58,14 @@ namespace MSBotV2
             //    .Concat(FinishedScripts.NavigateMottledForest1ToMottledForest2)
             //    .Concat(FinishedScripts.NavigateMottledForest2ToMottledForest3).ToList();
 
+            //List<ScriptItem> x = FinishedScripts.ScriptAttackSpecterLeftToRightVariation1;
+
             //new Core().RunScript(ScriptComposer.Compose(x));
 
 
             //new Core().RunScript(ScriptComposer.Compose(FinishedScripts.NavigateChuChuToFiveColorHillPath));
-        }
 
-        public static void demo() {
-
-            //List<ScriptItem> ChangeChannel = new List<ScriptItem>()
-            //{
-            //    new ScriptItem(AtomicParallelEvents.ChangeChannel),
-            //    new ScriptItem(AtomicParallelEvents.PauseMedium),
-            //    new ScriptItem(AtomicParallelEvents.ChangeChannel),
-            //};
-
-            ScriptComposer.run(ScriptComposer.Compose(FinishedScripts.PreExitMottled.Concat(FinishedScripts.ChangeChannel).ToList()));
+            //ScriptComposer.run(ScriptComposer.Compose(FinishedScripts.PreExitMottled.Concat(FinishedScripts.ChangeChannel).ToList()));
         }
     }
 

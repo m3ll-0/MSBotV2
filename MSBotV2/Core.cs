@@ -5,6 +5,8 @@ namespace MSBotV2
 {
     public class Core
     {
+        public static bool CORE_INTERRUPTED = false;
+
         protected int numberOfAliveParallelCommandThreads = 0;
 
         public void RunScript(Script script) {
@@ -13,11 +15,46 @@ namespace MSBotV2
 
 
             for (; ; ) {
+                // Check if CORE_INTERRUPTED is set to through, meaning that an DynamicScript is being invoked and should be waited upon.
+                // If so, cancel current instance.
+                if (CORE_INTERRUPTED) {
+                    Logger.Log(nameof(Script), $"Core interrupted to call DynamicScript", Logger.LoggerPriority.INFO);
+
+                    CORE_INTERRUPTED = false;
+                    return;
+                }
+
                 // Peek to see if potentialParallelEvent is ready to be invoked
                 ParallelEvent potentialParallelEvent = script.ParallelEvents.Peek();
 
                 // Check if potentialParallelEvent is not null and ready to be invoked
                 if (potentialParallelEvent != null) {
+                    ParallelEvent parallelEvent = script.ParallelEvents.Pop();
+                    InvokeParallelEvent(parallelEvent);
+                }
+
+                // Priority queue is empty, stop
+                if (script.ParallelEvents.Count == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        public void RunDynamicScript(Script script)
+        {
+
+            Logger.Log(nameof(Script), $"Invoking script", Logger.LoggerPriority.INFO);
+
+
+            for (; ; )
+            {
+                // Peek to see if potentialParallelEvent is ready to be invoked
+                ParallelEvent potentialParallelEvent = script.ParallelEvents.Peek();
+
+                // Check if potentialParallelEvent is not null and ready to be invoked
+                if (potentialParallelEvent != null)
+                {
                     ParallelEvent parallelEvent = script.ParallelEvents.Pop();
                     InvokeParallelEvent(parallelEvent);
                 }

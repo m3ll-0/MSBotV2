@@ -19,6 +19,7 @@ namespace MSBotV2
         private static Stopwatch sw = new Stopwatch();
         private static OrchestratorModeCycleStrategy orchestratorModeCycleStrategy = OrchestratorModeCycleStrategy.SIMPLE; // todo: conf
         private static Map currentMap = Map.MOTTLED_FOREST_3;
+        private static bool ORCHESTRATOR_INTERRUPTED = false;
 
         public static void Orchestrate() {
 
@@ -26,6 +27,13 @@ namespace MSBotV2
             sw.Start();
 
             for (; ; ) {
+
+                if (ORCHESTRATOR_INTERRUPTED)
+                {
+                    Logger.Log(nameof(Script), $"Orchestrator interrupted to call DynamicScript, in idle mode", Logger.LoggerPriority.HIGH);
+                    Thread.Sleep(3000);
+                    continue;
+                }
 
                 if (orchestratorMode == OrchestratorMode.MODE_ATTACK)
                 {
@@ -49,10 +57,31 @@ namespace MSBotV2
             }
         }
 
+        private static void PollOrchestratorModeCycleStrategy()
+        {
+            // Get configured switch time
+            int switchTime = OrchestratorModeCycleStrategyConfig.cycleConfigTime[orchestratorMode];
+
+            // See if elapsed time > switch time
+            if (sw.Elapsed.TotalMilliseconds > switchTime)
+            {
+                Logger.Log(nameof(Orchestrator), $"Normal Cycle, changing OrchestratorMode from [{orchestratorMode}] to [{OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode]}]", Logger.LoggerPriority.MEDIUM);
+
+                orchestratorMode = OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode];
+
+                // Reset timer after changing modes
+                sw.Restart();
+            }
+            else
+            {
+                Logger.Log(nameof(Orchestrator), $"Lapsed {sw.Elapsed.TotalMilliseconds} / {switchTime} ", Logger.LoggerPriority.LOW);
+            }
+        }
+
         private static void HandleAttackMode() {
 
             // Compose random attack script based on direction and run it
-            Script attackScript = ScriptComposer.Compose(GetRandomAttack());
+            Script attackScript = ScriptComposer.Compose(Helper.GetRandomAttack(currentAttackTypeMode));
             core.RunScript(attackScript);
 
             // Toggle attack type mode to change direction
@@ -65,9 +94,9 @@ namespace MSBotV2
             // Problem: First time enter
             // Problem: What if spectermode is deactivated, attacks will continue
             // Problem: Specter mode only needs to be activated in combat mode, not anywhere else
-
+            
             // Compose random attack script based on direction and run it
-            Script attackScript = ScriptComposer.Compose(GetRandomSpecterAttack());
+            Script attackScript = ScriptComposer.Compose(Helper.GetRandomSpecterAttack(currentAttackTypeMode));
             core.RunScript(attackScript);
 
             // Toggle attack type mode to change direction
@@ -106,116 +135,78 @@ namespace MSBotV2
             core.RunScript(ScriptComposer.Compose(Buff));
         }
 
-        private static List<ScriptItem>? GetRandomAttack()
-        {
-            // Attack scripts HAVE to be symmetric
-            int relevantKeySpace = (int) (CreateAttackScriptsPool().Count * 0.5);
-
-            var attackPoolEnumerator = CreateAttackScriptsPool()
-                .Where(x => x.Value == (currentAttackTypeMode == ScriptItemAttackType.RIGHT_TO_LEFT ? ScriptItemAttackType.LEFT_TO_RIGHT : ScriptItemAttackType.RIGHT_TO_LEFT))
-                .GetEnumerator();
-
-            int attackMoveCounter = 0;
-            int randomAttackMove = new Random().Next(0, relevantKeySpace);
-
-            while (attackPoolEnumerator.MoveNext())
-            {
-                if (attackMoveCounter++ == randomAttackMove) {
-                    return attackPoolEnumerator.Current.Key;
-                }
-            }
-
-            return null;
-        }
-
-        public static List<ScriptItem>? GetRandomSpecterAttack()
-        {
-            // Attack scripts HAVE to be symmetric
-            int relevantKeySpace = (int)(CreateAttackSpecterScriptsPool().Count * 0.5);
-
-            var attackPoolEnumerator = CreateAttackSpecterScriptsPool()
-                .Where(x => x.Value == (currentAttackTypeMode == ScriptItemAttackType.RIGHT_TO_LEFT ? ScriptItemAttackType.LEFT_TO_RIGHT : ScriptItemAttackType.RIGHT_TO_LEFT))
-                .GetEnumerator();
-
-            int attackMoveCounter = 0;
-            int randomAttackMove = new Random().Next(0, relevantKeySpace);
-
-            while (attackPoolEnumerator.MoveNext())
-            {
-                if (attackMoveCounter++ == randomAttackMove)
-                {
-                    return attackPoolEnumerator.Current.Key;
-                }
-            }
-
-            return null;
-        }
-
         /*
          * Does TemplateMatching on a specified TemplateMatchingAction and invokes a corresponding script. Returns the corresponding OrchestratorMode that
          * will be set afterwards which might interrupt the current cycle.
          */
-        private static OrchestratorMode? PollTemplateMatching(TemplateMatchingAction templateMatchingAction) {
+        private static OrchestratorMode? ExecuteTemplateMatching(TemplateMatchingAction templateMatchingAction) {
 
+            // Get templateMatchingResult
             var TemplateMatchingResult = TemplateMatch(templateMatchingAction);
 
-            // Find corresponding dynamic script
+            // Get corresponding DynamicScript from templateMatchingResult
             var templateMatchingScriptTriple = TemplateMatchingConfig.TemplateMatchingResults.Where(x => x.Item1 == templateMatchingAction).First();
-            DynamicScript dynamicScript = TemplateMatchingResult.Item1 ? templateMatchingScriptTriple.Item2 : templateMatchingScriptTriple.Item3;
+            DynamicScript? dynamicScript = TemplateMatchingResult.Item1 ? templateMatchingScriptTriple.Item2 : templateMatchingScriptTriple.Item3;
 
+            // If DynamicScript is not null, invoke
             if (dynamicScript != null) {
+
                 // Invoke corresponding script
                 Logger.Log(nameof(TemplateMatching), $"Invoking dynamic script for TemplateMatchingAction {templateMatchingAction})", Logger.LoggerPriority.MEDIUM);
+                
+                Core.CORE_INTERRUPTED = true; // Set false immediately, else the DynamicScript won't execute
+                ORCHESTRATOR_INTERRUPTED = true; // Set false after DynamicScript has finished
+
                 dynamicScript.Invoke();
+
+                ORCHESTRATOR_INTERRUPTED = false; // After DynamicScript is done, continue orchestrator
+
+                // Set time when action is completed for timeout purposes
+                TemplateMatchingConfig.TemplateMatchingActionEventTimes[templateMatchingAction] = DateTime.Now;
             }
 
             // Find corresponding action
             var templateMatchingOrchestratorModeTriple = TemplateMatchingConfig.TemplateMatchingOrchestratorModes.Where(x => x.Item1 == templateMatchingAction).First();
             OrchestratorMode? orchestratorMode = TemplateMatchingResult.Item1 ? templateMatchingOrchestratorModeTriple.Item2 : templateMatchingOrchestratorModeTriple.Item3;
 
+            // Set orchestratorMode from thread
             return orchestratorMode;
         }
 
-        private static void PollOrchestratorModeCycleStrategy()
+        // Runs on different thread
+        public static void PollTemplateMatchingThread()
         {
-            switch (orchestratorModeCycleStrategy) {
+            for (; ; )
+            {
+                foreach (TemplateMatchingAction templateMatchingAction in TemplateMatchingConfig.templateActionsInterruptingOrchestrator)
+                {
+                    // Poll template match, unless it has just been called. Need to define stopwatch + timeOut.
+                    // Stopwatch needed per TMaction........., or set time in dictionary<Action, OldTime>, then get 
+                    // Current_time - old_time > Config[action]
 
-                case OrchestratorModeCycleStrategy.SIMPLE:
+                    var timeBetweenEventsInMilliseconds = (DateTime.Now - TemplateMatchingConfig.TemplateMatchingActionEventTimes[templateMatchingAction]).TotalMilliseconds;
+                    var templateMatchingActionTimeout = TemplateMatchingConfig.TemplateMatchingActionTimeouts[templateMatchingAction];
 
-                    // todo: put in config
-                    // poll template matching for each defined action
-                    // use predefined list for actions to test during this phase
-                    // potential problem, only the latest o-mode will be set afterwards because it is sequential, priority?
-                    // Could make a priorityqueue of items found and get best one
-                    foreach (TemplateMatchingAction templateMatchingAction in TemplateMatchingConfig.templateActionsInterruptingOrchestrator) {
-                        OrchestratorMode? polledOrchestratorMode = PollTemplateMatching(templateMatchingAction);
-
-                        if (polledOrchestratorMode != null)
-                        {
-                            Logger.Log(nameof(Orchestrator), $"Interrupting cycle by TemplateMatching, changing Orchestrator mode from [{orchestratorMode}] to [{(OrchestratorMode)polledOrchestratorMode}]", Logger.LoggerPriority.HIGH);
-
-                            // Ugly, seek fix! Timer needs to be reset when first detecting Specter gauge is full
-                            // Or maybe it works?
-                            sw.Restart();
-
-                            orchestratorMode = (OrchestratorMode)polledOrchestratorMode;
-                            return;
-                        }
+                    if (timeBetweenEventsInMilliseconds < templateMatchingActionTimeout) {
+                        Logger.Log(nameof(Orchestrator), $"Timeout for {templateMatchingAction} has not been reached: {timeBetweenEventsInMilliseconds / templateMatchingActionTimeout}", Logger.LoggerPriority.INFO);
+                        continue;
                     }
 
-                    int switchTime = OrchestratorModeCycleStrategyConfig.cycleConfigTime[orchestratorMode];
-                    if (sw.Elapsed.TotalMilliseconds > switchTime)
-                    {
-                        Logger.Log(nameof(Orchestrator), $"Normal Cycle, changing OrchestratorMode from [{orchestratorMode}] to [{OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode]}]", Logger.LoggerPriority.MEDIUM);
+                    OrchestratorMode? polledOrchestratorMode = ExecuteTemplateMatching(templateMatchingAction);
 
-                        orchestratorMode = OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode];
+                    if (polledOrchestratorMode != null)
+                    {
+                        Logger.Log(nameof(Orchestrator), $"Interrupting cycle by TemplateMatching, changing Orchestrator mode from [{orchestratorMode}] to [{(OrchestratorMode)polledOrchestratorMode}]", Logger.LoggerPriority.HIGH);
+                        orchestratorMode = (OrchestratorMode)polledOrchestratorMode;
+
+                        // Restart orchistrator mode seperately
                         sw.Restart();
                     }
-                    else {
-                        Logger.Log(nameof(Orchestrator), $"Lapsed {sw.Elapsed.TotalMilliseconds} / {switchTime} ", Logger.LoggerPriority.LOW);
-                    }
+                }
 
-                    break;
+                // Sleep after cycle
+                Logger.Log(nameof(Orchestrator), $"PollTemplateMatchingThread goes to sleep", Logger.LoggerPriority.LOW);
+                Thread.Sleep(5000);
             }
         }
     }
@@ -246,10 +237,10 @@ namespace MSBotV2
         {
             { OrchestratorMode.MODE_BUFF, OrchestratorMode.MODE_ATTACK },
             { OrchestratorMode.MODE_ATTACK, OrchestratorMode.MODE_CC },
-            { OrchestratorMode.MODE_CC, OrchestratorMode.MODE_BUFF },
+            { OrchestratorMode.MODE_CC, OrchestratorMode.MODE_ATTACK },
 
-            // One way
-            { OrchestratorMode.MODE_ATTACK_SPECTER, OrchestratorMode.MODE_ATTACK },
+            // TemplateMatching OrchestratorModes (one way)
+            { OrchestratorMode.MODE_ATTACK_SPECTER, OrchestratorMode.MODE_BUFF },
         };
     }
 
@@ -276,6 +267,4 @@ namespace MSBotV2
             { Map.MOTTLED_FOREST_3, ScriptItemAttackType.RIGHT_TO_LEFT },
         };
     }
-        
-    
 }

@@ -10,7 +10,7 @@ namespace MSBotV2
 {
     public static class Mouse
     {
-        public static bool UseScreenScaling = false;
+        public static bool UseScreenScaling = true;
 
         public static void SetCursorPosition((int, int) coordinates_undetermined) {
 
@@ -57,7 +57,7 @@ namespace MSBotV2
 
             // Add 10px as padding because template matching selects the first pixel found
             // Another implementation is only selecting the middle of the image as a needle, coud be looked at
-            x_coordinate_result += 10;
+            x_coordinate_result += 15;
             y_coordinate_result += 10;
 
             // Set cursor position

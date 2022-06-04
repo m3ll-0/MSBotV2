@@ -147,7 +147,6 @@ namespace MSBotV2
 
         public static List<ParallelCommand> PauseMedium()
         {
-
             return new List<ParallelCommand>()
             {
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 600, 0),
@@ -169,6 +168,15 @@ namespace MSBotV2
             return new List<ParallelCommand>()
             {
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 2000, 0),
+            };
+        }
+
+        public static List<ParallelCommand> PauseDeath()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 5000, 0),
             };
         }
 
@@ -300,6 +308,32 @@ namespace MSBotV2
             };
         }
 
+        public static List<ParallelCommand> AttackDoubleJumpSwipeRightSpecter()
+        {
+
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 800, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LSHIFT, 600, 720)
+            };
+        }
+
+        public static List<ParallelCommand> AttackDoubleJumpSwipeLeftSpecter()
+        {
+
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFT, 800, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LSHIFT, 600, 720)
+            };
+        }
+
         public static List<ParallelCommand> AttackDoubleJumpSwipeUp()
         {
 
@@ -327,6 +361,16 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_A, 700, 0),
+            };
+        }
+
+        public static List<ParallelCommand> AttackCubeSpecter()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                //new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_A, 700, 0),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_A, 700, 0),
             };
         }

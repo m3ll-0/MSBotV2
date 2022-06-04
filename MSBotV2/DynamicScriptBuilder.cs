@@ -11,6 +11,8 @@ namespace MSBotV2
     {
         public static DynamicScript BuildOpenPetDynamicScript() {
 
+   
+            // always return to map
 
             DynamicScript dynamicScriptReturnToMap = new DynamicScript(
                 null,
@@ -24,13 +26,19 @@ namespace MSBotV2
                     null
                     );
 
-            DynamicScript dynamicScriptOpenPet = new DynamicScript(TemplateMatchingAction.INVENTORY_PET, null, dynamicScriptReturnToMap, null);
+            DynamicScript dynamicScriptOpenPet = new DynamicScript(
+                TemplateMatchingAction.INVENTORY_PET,
+                FinishedScripts.OpenPet,
+                dynamicScriptReturnToMap,
+                dynamicScriptReturnToMap
+                );
            
             DynamicScript dynamicScriptOpenInventoryCashRoot = new DynamicScript(
                 TemplateMatchingAction.INVENTORY_CASH,
                 FinishedScripts.OpenInventory,
-                dynamicScriptOpenPet, 
-                null);
+                dynamicScriptOpenPet,
+                dynamicScriptReturnToMap
+                );
 
             return dynamicScriptOpenInventoryCashRoot;
         }

@@ -95,28 +95,31 @@ namespace MSBotV2
         // ATTACK SPECTER SCRIPTS
         public static List<ScriptItem> ScriptAttackSpecterLeftToRightVariation1 = new List<ScriptItem>()
             {
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRight),
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRight),
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeUp),
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRight),
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRight),
-                new ScriptItem(AtomicParallelEvents.DashComboRight),
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRightSpecter),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRightSpecter),
                 new ScriptItem(AtomicParallelEvents.AttackCube),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRightSpecter),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeUp),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRightSpecter),
                 new ScriptItem(AtomicParallelEvents.DashComboRight),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRightSpecter),
+
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeftSpecter),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRightSpecter),
             };
 
         public static List<ScriptItem> ScriptAttackSpecterRightToLeftVariation1 = new List<ScriptItem>()
             {
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeft),
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeft),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeftSpecter),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeftSpecter),
+                new ScriptItem(AtomicParallelEvents.AttackPulse),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeftSpecter),
                 new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeUp),
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeft),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeftSpecter),
                 new ScriptItem(AtomicParallelEvents.DashComboLeft),
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeft),
-                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeft),
-                new ScriptItem(AtomicParallelEvents.AttackCube),
-                new ScriptItem(AtomicParallelEvents.DashComboLeft),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeftSpecter),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeRightSpecter),
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeLeftSpecter),
             };
 
         public static List<ScriptItem> ToggleSpecterMode = new List<ScriptItem>()
@@ -399,23 +402,30 @@ namespace MSBotV2
                 new ScriptItem(AtomicParallelEvents.ToggleSpecterMode)
             };
 
-            public static List<ScriptItem> OpenInventory = new List<ScriptItem>()
+        public static List<ScriptItem> OpenPet = new List<ScriptItem>()
             {
                 new ScriptItem(AtomicParallelEvents.PauseLong),
+            };
+
+        public static List<ScriptItem> OpenInventory = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.PauseDeath),
                 new ScriptItem(AtomicParallelEvents.OpenInventory)
             };
 
-            public static List<ScriptItem> CloseInventory = new List<ScriptItem>()
+        public static List<ScriptItem> CloseInventory = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.PauseLong),
+                new ScriptItem(AtomicParallelEvents.CloseInventory)
+            };
+
+        public static List<ScriptItem> ExitProcess = new List<ScriptItem>()
                 {
                     new ScriptItem(AtomicParallelEvents.PauseLong),
                     new ScriptItem(AtomicParallelEvents.CloseInventory)
                 };
 
 
-        //public static List<ScriptItem> NavigateChuChuToFiveColorHillPathWalkLeft = new List<ScriptItem>()
-        //    {
-        //        new ScriptItem(),
-        //    };
 
 
 

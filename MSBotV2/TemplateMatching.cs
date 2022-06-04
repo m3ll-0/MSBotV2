@@ -81,16 +81,17 @@ namespace MSBotV2
             if(!foundMatch) Logger.Log(nameof(TemplateMatching), $"No match was found for TemplateMatchingAction [{templateMatchingAction}])", Logger.LoggerPriority.HIGH);
 
             if (foundMatch) {
-                Mouse.SetCursorPosition((x_coordinate, y_coordinate));
-                Thread.Sleep(300);
-
                 // Check if mouse click has to be performed
                 switch (Config.TemplateMatchingConfig.TemplateMatchingMouseClicks[templateMatchingAction])
                 {
                     case TemplateMatchingMouseClickType.MOUSE_CLICK_SINGLE:
+                        Mouse.SetCursorPosition((x_coordinate, y_coordinate));
+                        Thread.Sleep(300);
                         Mouse.DoMouseClick();
                         break;
                     case TemplateMatchingMouseClickType.MOUSE_CLICK_DOUBLE:
+                        Mouse.SetCursorPosition((x_coordinate, y_coordinate));
+                        Thread.Sleep(300);
                         Mouse.DoMouseClick();
                         Mouse.DoMouseClick();
                         break;
