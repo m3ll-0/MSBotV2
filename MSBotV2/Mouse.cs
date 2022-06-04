@@ -10,7 +10,6 @@ namespace MSBotV2
 {
     public static class Mouse
     {
-        public static bool UseScreenScaling = false;
 
         public static void SetCursorPosition((int, int) coordinates_undetermined) {
 
@@ -26,13 +25,13 @@ namespace MSBotV2
             Logger.Log(nameof(Mouse), $"Found coordinates for Maplestory {mapleStoryWindowCoordinates.Item1}, {mapleStoryWindowCoordinates.Item2})", Logger.LoggerPriority.MEDIUM);
 
             // todo move to config
-            double x_coordinate_scaling_factor = 0.793650794;
-            double y_coordinate_scaling_factor = 0.8;
+            double x_coordinate_scaling_factor = Config.MouseConfig.x_coordinate_scaling_factor;
+            double y_coordinate_scaling_factor = Config.MouseConfig.y_coordinate_scaling_factor;
 
             int x_coordinate_result = 0;
             int y_coordinate_result = 0;
 
-            switch (UseScreenScaling) {
+            switch (Config.MouseConfig.UseScreenScaling) {
                 case true: // Coordinates are scaled
                     // Apply scaling factor to needle position
                     int x_coordinate_needle_scaled = (int)(x_coordinate_needle_undetermined * x_coordinate_scaling_factor);
@@ -57,8 +56,8 @@ namespace MSBotV2
 
             // Add 10px as padding because template matching selects the first pixel found
             // Another implementation is only selecting the middle of the image as a needle, coud be looked at
-            x_coordinate_result += 15;
-            y_coordinate_result += 10;
+            x_coordinate_result += Config.MouseConfig.x_coordinate_result_padding;
+            y_coordinate_result += Config.MouseConfig.y_coordinate_result_padding;
 
             // Set cursor position
             SetCursorPos(x_coordinate_result, y_coordinate_result);

@@ -19,15 +19,14 @@ namespace MSBotV2
         public static Dictionary<TemplateMatchingAction, Image<Bgr, byte>> templateMatchingMemoryImage { get; set; } = new Dictionary<TemplateMatchingAction, Image<Bgr, byte>>();
 
         public static void LoadNeedlesFromDiskToMemory() {
-            string imageDirectory = "../../../img/";
 
             // Load the needles from disk initially to save IO reading
             foreach(TemplateMatchingAction templateMatchingAction in Enum.GetValues(typeof(TemplateMatchingAction)))
             {
                 // For each existing TemplateMatchingAction, load image in memory
-                string needleFilename = Config.TemplateMatchingConfig.templateMatchingActionFiles[templateMatchingAction];
+                string needleFilename = Config.TemplateMatchingConfig.TemplateMatchingActionFiles[templateMatchingAction];
 
-                var needleTemplateImagePath = Path.Combine(imageDirectory, needleFilename);
+                var needleTemplateImagePath = Path.Combine(Config.TemplateMatchingConfig.ImageDirectory, needleFilename);
                 Image<Bgr, byte> needleTemplateImage = new Image<Bgr, byte>(needleTemplateImagePath);
 
                 templateMatchingMemoryImage.Add(templateMatchingAction, needleTemplateImage);
@@ -36,7 +35,7 @@ namespace MSBotV2
 
         public static (bool, (int, int)) TemplateMatch(TemplateMatchingAction templateMatchingAction) {
 
-            string needleFileName = Config.TemplateMatchingConfig.templateMatchingActionFiles[templateMatchingAction];
+            string needleFileName = Config.TemplateMatchingConfig.TemplateMatchingActionFiles[templateMatchingAction];
 
             // Create haystack (screenshot, but keep it in memory as optimization)
             var haystack = ScreenCapture.CaptureActiveWindow();
@@ -49,9 +48,17 @@ namespace MSBotV2
             Image<Gray, byte> needleTemplateGrayscaleImage = templateMatchingMemoryImage[templateMatchingAction].Convert<Gray, byte>();
 
             //set threshold, 1.00 meaning that the images must be identical
-            double Threshold = 0.8; 
+            double Threshold = 0.8;
+            Image<Gray, float>? Matches = null;
 
-            Image<Gray, float> Matches = haystackSourceGrayscaleImage.MatchTemplate(needleTemplateGrayscaleImage, TemplateMatchingType.CcoeffNormed);
+            try {
+                Matches = haystackSourceGrayscaleImage.MatchTemplate(needleTemplateGrayscaleImage, TemplateMatchingType.CcoeffNormed);
+            } catch (Exception e)
+            { // Catch Emgu.CV.Util.CVException
+                Logger.Log(nameof(TemplateMatching), e.Message, Logger.LoggerPriority.CRITICAL);
+                return (false, (0, 0));
+            }
+
             bool foundMatch = false;
             
             // Get the physical coordinates
@@ -132,7 +139,11 @@ namespace MSBotV2
             INVENTORY_CASH,
             INVENTORY_PET,
             SPECTER_GAUGE_FULL,
-            BOSS_CURSE
+            BOSS_CURSE,
+            INVENTORY_HYPER_ROCK,
+            HYPER_ROCK_MAP,
+            HYPER_ROCK_MOVE_BUTTON,
+            HYPER_ROCK_CONFIRM_BUTTON
         }
     }
 

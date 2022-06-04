@@ -66,16 +66,81 @@ namespace MSBotV2
 
             return dynamicScriptChangeChannelRoot;
         }
-    }
 
-    public enum DynamicScriptType { 
-        OPEN_PET
-    }
-
-    public static class DynamicScriptConfig {
-        public static Dictionary<DynamicScriptType, DynamicScript> DynamicScripts = new Dictionary<DynamicScriptType, DynamicScript>()
+        public static DynamicScript BuildMoveToTrainingMapAfterDeathDynamicScript()
         {
-            { DynamicScriptType.OPEN_PET, DynamicScriptBuilder.BuildOpenPetDynamicScript() }
-        };
+            ///// FAILSAFE
+            DynamicScript dynamicScriptReturnToMapOnFoot = new DynamicScript(
+            null,
+            FinishedScripts.CloseInventory
+                .Concat(FinishedScripts.NavigateChuChuToFiveColorHillPath)
+                .Concat(FinishedScripts.NavigateFiveColorHillPathToMottledForest1)
+                .Concat(FinishedScripts.NavigateMottledForest1ToMottledForest2)
+                .Concat(FinishedScripts.NavigateMottledForest2ToMottledForest3)
+                .ToList(),
+                null,
+                null
+                );
+
+            ////// END
+
+            // Click confirm button
+            DynamicScript dynamicScriptClickConfirmButton = new DynamicScript(
+                TemplateMatchingAction.HYPER_ROCK_CONFIRM_BUTTON,
+                FinishedScripts.PauseLong,
+                null,
+                null
+                );
+
+            // Click move button
+            DynamicScript dynamicScriptClickMoveButton = new DynamicScript(
+                TemplateMatchingAction.HYPER_ROCK_MOVE_BUTTON,
+                FinishedScripts.PauseLong,
+                dynamicScriptClickConfirmButton,
+                dynamicScriptReturnToMapOnFoot
+                );
+
+            // Click on map
+            DynamicScript dynamicScriptClickMap = new DynamicScript(
+                TemplateMatchingAction.HYPER_ROCK_MAP,
+                FinishedScripts.PauseLong,
+                dynamicScriptClickMoveButton,
+                dynamicScriptReturnToMapOnFoot
+                );
+
+            // Click hyper rock
+            DynamicScript dynamicScriptOpenHyperRock = new DynamicScript(
+                TemplateMatchingAction.INVENTORY_HYPER_ROCK,
+                FinishedScripts.PauseLong,
+                dynamicScriptClickMap,
+                dynamicScriptReturnToMapOnFoot
+                );
+
+            // Click pet
+            DynamicScript dynamicScriptOpenPet = new DynamicScript(
+                TemplateMatchingAction.INVENTORY_PET,
+                FinishedScripts.PauseLong,
+                dynamicScriptOpenHyperRock,
+                dynamicScriptReturnToMapOnFoot
+                );
+
+            // Open inventory
+            DynamicScript dynamicScriptOpenInventoryCash = new DynamicScript(
+                TemplateMatchingAction.INVENTORY_CASH,
+                FinishedScripts.PauseLong,
+                dynamicScriptOpenPet,
+                dynamicScriptReturnToMapOnFoot
+                );
+
+            // Sleep after death (root)
+            DynamicScript dynamicScriptSleepAfterDeathRoot = new DynamicScript(
+                null,
+                FinishedScripts.PauseAfterDeath,
+                dynamicScriptOpenInventoryCash,
+                dynamicScriptReturnToMapOnFoot
+                );
+
+            return dynamicScriptSleepAfterDeathRoot;
+        }
     }
 }

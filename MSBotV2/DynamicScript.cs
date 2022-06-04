@@ -31,26 +31,37 @@ namespace MSBotV2
                 new Core().RunDynamicScript(ScriptComposer.Compose(ScriptItems));
             }
 
-            if (TemplateMatchingAction == null)
+            // If TemplateMatchingAction is null and if next node is not set, return.
+            // But if next node is set, invoke true node as there is no validation being done.
+            // This allows for flexible Dynamic scripts
+            if (TemplateMatchingAction == null && DynamicScriptNodeTrue == null)
             {
                 return;
             }
+            else if (TemplateMatchingAction == null && DynamicScriptNodeTrue != null) // Invoke true regardless of result
+            {
+                DynamicScriptNodeTrue.Invoke();
+            }
+            else if (TemplateMatchingAction != null) // Invoke next based on result
+            {
+                var templateMatchingResult = TemplateMatch((TemplateMatchingAction)TemplateMatchingAction);
 
-            var templateMatchingResult = TemplateMatch((TemplateMatchingAction)TemplateMatchingAction);
+                switch (templateMatchingResult.Item1)
+                {
+                    case true:
+                        if (DynamicScriptNodeTrue != null)
+                        {
+                            DynamicScriptNodeTrue.Invoke();
+                        }
+                        break;
 
-            switch (templateMatchingResult.Item1) {
-                case true:
-                    if (DynamicScriptNodeTrue != null) {
-                        DynamicScriptNodeTrue.Invoke();
-                    }
-                    break;
-
-                case false:
-                    if (DynamicScriptNodeFalse != null)
-                    {
-                        DynamicScriptNodeFalse.Invoke();
-                    }
-                    break;
+                    case false:
+                        if (DynamicScriptNodeFalse != null)
+                        {
+                            DynamicScriptNodeFalse.Invoke();
+                        }
+                        break;
+                }
             }
         }
 

@@ -31,7 +31,7 @@ namespace MSBotV2
                 if (ORCHESTRATOR_INTERRUPTED)
                 {
                     Logger.Log(nameof(Script), $"Orchestrator interrupted to call DynamicScript, in idle mode", Logger.LoggerPriority.HIGH);
-                    Thread.Sleep(3000);
+                    Thread.Sleep(1000);
                     continue;
                 }
 
@@ -60,14 +60,14 @@ namespace MSBotV2
         private static void PollOrchestratorModeCycleStrategy()
         {
             // Get configured switch time
-            int switchTime = OrchestratorModeCycleStrategyConfig.cycleConfigTime[orchestratorMode];
+            int switchTime = OrchestratorConfig.CycleConfigTime[orchestratorMode];
 
             // See if elapsed time > switch time
             if (sw.Elapsed.TotalMilliseconds > switchTime)
             {
-                Logger.Log(nameof(Orchestrator), $"Normal Cycle, changing OrchestratorMode from [{orchestratorMode}] to [{OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode]}]", Logger.LoggerPriority.MEDIUM);
+                Logger.Log(nameof(Orchestrator), $"Normal Cycle, changing OrchestratorMode from [{orchestratorMode}] to [{OrchestratorConfig.CycleConfigSequence[orchestratorMode]}]", Logger.LoggerPriority.MEDIUM);
 
-                orchestratorMode = OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode];
+                orchestratorMode = OrchestratorConfig.CycleConfigSequence[orchestratorMode];
 
                 // Reset timer after changing modes
                 sw.Restart();
@@ -104,15 +104,15 @@ namespace MSBotV2
             Logger.Log(nameof(Orchestrator), $"Changing ScriptItemSpecterAttackType to [{currentAttackTypeMode}]", Logger.LoggerPriority.MEDIUM);
 
             // Need to handle exit spectermode somewhere
-            int switchTime = OrchestratorModeCycleStrategyConfig.cycleConfigTime[orchestratorMode];
+            int switchTime = OrchestratorConfig.CycleConfigTime[orchestratorMode];
 
             if (sw.Elapsed.TotalMilliseconds > switchTime)
             {
                 Logger.Log(nameof(Orchestrator), $"Detected switchtime in [{orchestratorMode}], exiting specter mode. ", Logger.LoggerPriority.MEDIUM);
                 core.RunScript(ScriptComposer.Compose(ToggleSpecterMode));
 
-                Logger.Log(nameof(Orchestrator), $"End of SpecterMode reached, changing Orchestrator mode from [{orchestratorMode}] to [{OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode]}]", Logger.LoggerPriority.HIGH);
-                orchestratorMode = OrchestratorModeCycleStrategyConfig.cycleConfigSequence[orchestratorMode];
+                Logger.Log(nameof(Orchestrator), $"End of SpecterMode reached, changing Orchestrator mode from [{orchestratorMode}] to [{OrchestratorConfig.CycleConfigSequence[orchestratorMode]}]", Logger.LoggerPriority.HIGH);
+                orchestratorMode = OrchestratorConfig.CycleConfigSequence[orchestratorMode];
 
                 sw.Restart();
             }
@@ -122,10 +122,10 @@ namespace MSBotV2
             Logger.Log(nameof(Orchestrator), $"Changing channel {currentAttackTypeMode}", Logger.LoggerPriority.MEDIUM);
 
             // Run the script
-            core.RunScript(ScriptComposer.Compose(MapChangeChannelScripts.mapChangeChannelScripts[currentMap]));
+            core.RunScript(ScriptComposer.Compose(OrchestratorConfig.MapChangeChannelScripts[currentMap]));
             
             // Change Attack direction respectively
-            currentAttackTypeMode = MapChangeChannelStartingDirections.mapChangeChannelStartingDirections[currentMap];
+            currentAttackTypeMode = OrchestratorConfig.MapChangeChannelStartingDirections[currentMap];
         }
 
         private static void handleBuffMode()
@@ -178,17 +178,14 @@ namespace MSBotV2
         {
             for (; ; )
             {
-                foreach (TemplateMatchingAction templateMatchingAction in TemplateMatchingConfig.templateActionsInterruptingOrchestrator)
+                foreach (TemplateMatchingAction templateMatchingAction in TemplateMatchingConfig.TemplateActionsInterruptingOrchestrator)
                 {
-                    // Poll template match, unless it has just been called. Need to define stopwatch + timeOut.
-                    // Stopwatch needed per TMaction........., or set time in dictionary<Action, OldTime>, then get 
-                    // Current_time - old_time > Config[action]
-
+                    // Check if TemplateMatchingAction timeout has been expired since last event
                     var timeBetweenEventsInMilliseconds = (DateTime.Now - TemplateMatchingConfig.TemplateMatchingActionEventTimes[templateMatchingAction]).TotalMilliseconds;
                     var templateMatchingActionTimeout = TemplateMatchingConfig.TemplateMatchingActionTimeouts[templateMatchingAction];
 
                     if (timeBetweenEventsInMilliseconds < templateMatchingActionTimeout) {
-                        Logger.Log(nameof(Orchestrator), $"Timeout for {templateMatchingAction} has not been reached: {timeBetweenEventsInMilliseconds / templateMatchingActionTimeout}", Logger.LoggerPriority.INFO);
+                        Logger.Log(nameof(Orchestrator), $"Timeout for {templateMatchingAction} has not been reached: {timeBetweenEventsInMilliseconds} / {templateMatchingActionTimeout}", Logger.LoggerPriority.INFO);
                         continue;
                     }
 
@@ -224,47 +221,11 @@ namespace MSBotV2
         SIMPLE
     }
 
-    internal static class OrchestratorModeCycleStrategyConfig {
-        public static Dictionary<OrchestratorMode, int> cycleConfigTime { get; set; } = new Dictionary<OrchestratorMode, int>()
-        {
-            { OrchestratorMode.MODE_ATTACK, 1000 * 120 },
-            { OrchestratorMode.MODE_ATTACK_SPECTER, 1000 * 30 },
-            { OrchestratorMode.MODE_CC, 0 },
-            { OrchestratorMode.MODE_BUFF, 0 },
-        };
-
-        public static Dictionary<OrchestratorMode, OrchestratorMode> cycleConfigSequence { get; set; } = new Dictionary<OrchestratorMode, OrchestratorMode>()
-        {
-            { OrchestratorMode.MODE_BUFF, OrchestratorMode.MODE_ATTACK },
-            { OrchestratorMode.MODE_ATTACK, OrchestratorMode.MODE_CC },
-            { OrchestratorMode.MODE_CC, OrchestratorMode.MODE_ATTACK },
-
-            // TemplateMatching OrchestratorModes (one way)
-            { OrchestratorMode.MODE_ATTACK_SPECTER, OrchestratorMode.MODE_BUFF },
-        };
-    }
-
-    internal enum Map
+    public enum Map
     {
         CAVE_OF_REPOSE, 
         MOTTLED_FOREST_3
     }
 
-    internal static class MapChangeChannelScripts
-    {
-        public static Dictionary<Map, List<ScriptItem>> mapChangeChannelScripts { get; set; } = new Dictionary<Map, List<ScriptItem>>()
-        {
-            { Map.CAVE_OF_REPOSE, ExitMapRightCaveOfRepose.Concat(ChangeChannel).Concat(EnterMapLeft).ToList() },
-            { Map.MOTTLED_FOREST_3, PreExitMottled.Concat(ChangeChannel).ToList() },
-        };
-    }
 
-    internal static class MapChangeChannelStartingDirections
-    {
-        public static Dictionary<Map, ScriptItemAttackType> mapChangeChannelStartingDirections { get; set; } = new Dictionary<Map, ScriptItemAttackType>()
-        {
-            { Map.CAVE_OF_REPOSE, ScriptItemAttackType.LEFT_TO_RIGHT },
-            { Map.MOTTLED_FOREST_3, ScriptItemAttackType.RIGHT_TO_LEFT },
-        };
-    }
 }

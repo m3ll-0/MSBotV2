@@ -407,9 +407,17 @@ namespace MSBotV2
                 new ScriptItem(AtomicParallelEvents.PauseLong),
             };
 
+        public static List<ScriptItem> PauseLong = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.PauseLong),
+            };
+
+
         public static List<ScriptItem> OpenInventory = new List<ScriptItem>()
             {
-                new ScriptItem(AtomicParallelEvents.PauseDeath),
+                            //new ScriptItem(AtomicParallelEvents.PauseDeath),
+
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
                 new ScriptItem(AtomicParallelEvents.OpenInventory)
             };
 
@@ -417,6 +425,14 @@ namespace MSBotV2
             {
                 new ScriptItem(AtomicParallelEvents.PauseLong),
                 new ScriptItem(AtomicParallelEvents.CloseInventory)
+            };
+
+        public static List<ScriptItem> PauseAfterDeath = new List<ScriptItem>()
+            {
+                            //new ScriptItem(AtomicParallelEvents.PauseDeath),
+
+                new ScriptItem(AtomicParallelEvents.PauseLong),
+                new ScriptItem(AtomicParallelEvents.OpenInventory)
             };
 
         public static List<ScriptItem> ExitProcess = new List<ScriptItem>()

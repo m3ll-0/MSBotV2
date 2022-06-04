@@ -27,9 +27,10 @@ namespace MSBotV2
                                                                                                                                          
         public static void Launch() {
             TemplateMatching.LoadNeedlesFromDiskToMemory();
-
-            new Thread(new ThreadStart(() => { Orchestrator.Orchestrate(); })).Start();
+           
             new Thread(new ThreadStart(() => { Orchestrator.PollTemplateMatchingThread(); })).Start();
+            new Thread(new ThreadStart(() => { Orchestrator.Orchestrate(); })).Start();
+
         }
 
         public static void demo() {
@@ -42,7 +43,7 @@ namespace MSBotV2
             //};
 
             TemplateMatching.LoadNeedlesFromDiskToMemory();
-            DynamicScriptBuilder.BuildOpenPetDynamicScript().Invoke();
+            DynamicScriptBuilder.BuildMoveToTrainingMapAfterDeathDynamicScript().Invoke();
 
             //Orchestrator.GetRandomSpecterAttack();
 

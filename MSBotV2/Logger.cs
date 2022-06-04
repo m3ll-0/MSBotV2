@@ -13,14 +13,22 @@ namespace MSBotV2
             Console.ForegroundColor = LoggerPriorities[loggerPriority];
 
             string currentTime = DateTime.Now.ToString("h:mm:ss");
-            string line = $"{currentTime} | [{className}] | {message}";
+            string line = $"{currentTime} | {className} | {message}";
 
-            if (newLine)
+            if (Config.LogConfig.LogToConsole)
             {
-                Console.WriteLine(line);
+                if (newLine)
+                {
+                    Console.WriteLine(line);
+                }
+                else
+                {
+                    Console.Write(line);
+                }
             }
-            else {
-                Console.Write(line);
+
+            if (Config.LogConfig.LogToFile) {
+                LogToFile(line);
             }
         }
 
@@ -39,6 +47,15 @@ namespace MSBotV2
             MEDIUM,
             LOW,
             INFO
+        }
+        private static void LogToFile(string message)
+        {
+            string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
+            string logfile = $"log_{currentDate}.txt"; 
+
+            TextWriter tw = new StreamWriter($"C:/msbot/{logfile}", true);
+            tw.WriteLine(message);
+            tw.Close();
         }
     }
 }
