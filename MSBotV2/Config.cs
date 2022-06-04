@@ -22,9 +22,9 @@ namespace MSBotV2
             public static Dictionary<TemplateMatchingAction, int> TemplateMatchingActionTimeouts = new Dictionary<TemplateMatchingAction, int>()
             {
                 { TemplateMatchingAction.SPECTER_GAUGE_FULL, 30000},
-                { TemplateMatchingAction.PENALTY, 0},
+                { TemplateMatchingAction.PENALTY, 40000},
                 { TemplateMatchingAction.DEATH_SCREEN, 0},
-                { TemplateMatchingAction.BOSS_CURSE, 0},
+                { TemplateMatchingAction.BOSS_CURSE, 40000},
             };
 
             public static List<(TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)> TemplateMatchingOrchestratorModes = new List<(TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)>()
