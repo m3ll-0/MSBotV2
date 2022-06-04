@@ -19,7 +19,7 @@ namespace MSBotV2
         public static Dictionary<TemplateMatchingAction, Image<Bgr, byte>> templateMatchingMemoryImage { get; set; } = new Dictionary<TemplateMatchingAction, Image<Bgr, byte>>();
 
         public static void LoadNeedlesFromDiskToMemory() {
-            string imageDirectory = "C:/msbot/";
+            string imageDirectory = "../../../img/";
 
             // Load the needles from disk initially to save IO reading
             foreach(TemplateMatchingAction templateMatchingAction in Enum.GetValues(typeof(TemplateMatchingAction)))
@@ -131,7 +131,8 @@ namespace MSBotV2
             PENALTY,
             INVENTORY_CASH,
             INVENTORY_PET,
-            SPECTER_GAUGE_FULL
+            SPECTER_GAUGE_FULL,
+            BOSS_CURSE
         }
     }
 

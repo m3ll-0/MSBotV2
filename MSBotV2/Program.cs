@@ -23,8 +23,8 @@ namespace MSBotV2
 
             Launch();
             //demo();
-        }                                                                                                                                z
-                                                                                                                                         z
+        }                                                                                                                                
+                                                                                                                                         
         public static void Launch() {
             TemplateMatching.LoadNeedlesFromDiskToMemory();
 
