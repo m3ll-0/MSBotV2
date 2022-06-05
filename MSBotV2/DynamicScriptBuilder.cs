@@ -87,7 +87,7 @@ namespace MSBotV2
             // Close all windows
             DynamicScript dynamicScriptCloseAllWindows = new DynamicScript(
                 null,
-                FinishedScripts.CloseAllWindows,
+                FinishedScripts.CloseInventory,
                 null,
                 null
                 );

@@ -430,8 +430,6 @@ namespace MSBotV2
         public static List<ScriptItem> PauseAfterDeathAndOpenInventory = new List<ScriptItem>()
         {
             new ScriptItem(AtomicParallelEvents.PauseDeath),
-            new ScriptItem(AtomicParallelEvents.CloseAllWindows),
-            new ScriptItem(AtomicParallelEvents.PauseMedium),
             new ScriptItem(AtomicParallelEvents.OpenInventory)
         };
 
