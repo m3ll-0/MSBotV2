@@ -136,7 +136,7 @@ namespace MSBotV2
 
         public static class MouseConfig
         {
-            public static bool UseScreenScaling = true;
+            public static bool UseScreenScaling = false;
 
             public static double x_coordinate_scaling_factor = 0.793650794;
             public static double y_coordinate_scaling_factor = 0.8;

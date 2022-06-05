@@ -50,12 +50,18 @@ namespace MSBotV2
         }
         private static void LogToFile(string message)
         {
-            string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
-            string logfile = $"log_{currentDate}.txt"; 
+            try
+            {
+                string currentDate = DateTime.Now.ToString("dd-MM-yyyy");
+                string logfile = $"log_{currentDate}.txt";
 
-            TextWriter tw = new StreamWriter($"C:/msbot/{logfile}", true);
-            tw.WriteLine(message);
-            tw.Close();
+                TextWriter tw = new StreamWriter($"C:/msbot/{logfile}", true);
+                tw.WriteLine(message);
+                tw.Close();
+            }
+            catch (Exception ex) {
+                Console.WriteLine("Error logging: " + ex.Message);
+            }
         }
     }
 }
