@@ -84,12 +84,20 @@ namespace MSBotV2
 
             ////// END
 
+            // Close all windows
+            DynamicScript dynamicScriptCloseAllWindows = new DynamicScript(
+                null,
+                FinishedScripts.CloseAllWindows,
+                null,
+                null
+                );
+
             // Click confirm button
             DynamicScript dynamicScriptClickConfirmButton = new DynamicScript(
                 TemplateMatchingAction.HYPER_ROCK_CONFIRM_BUTTON,
                 FinishedScripts.PauseLong,
-                null,
-                null
+                dynamicScriptCloseAllWindows,
+                dynamicScriptReturnToMapOnFoot
                 );
 
             // Click move button
@@ -135,7 +143,7 @@ namespace MSBotV2
             // Sleep after death (root)
             DynamicScript dynamicScriptSleepAfterDeathRoot = new DynamicScript(
                 null,
-                FinishedScripts.PauseAfterDeath,
+                FinishedScripts.PauseAfterDeathAndOpenInventory,
                 dynamicScriptOpenInventoryCash,
                 dynamicScriptReturnToMapOnFoot
                 );

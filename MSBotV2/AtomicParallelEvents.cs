@@ -483,6 +483,17 @@ namespace MSBotV2
             };
         }
 
+        public static List<ParallelCommand> CloseAllWindows()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_ESCAPE, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_ESCAPE, 200, 200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_ESCAPE, 200, 400),
+            };
+        }
+
         public static List<ParallelCommand> CloseInventory()
         {
 
