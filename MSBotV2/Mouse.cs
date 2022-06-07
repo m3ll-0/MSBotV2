@@ -37,13 +37,13 @@ namespace MSBotV2
                     int x_coordinate_needle_scaled = (int)(x_coordinate_needle_undetermined * x_coordinate_scaling_factor);
                     int y_coordinate_needle_scaled = (int)(y_coordinate_needle_undetermined * y_coordinate_scaling_factor);
 
-                    // Apply scaling factor to mswindow position
-                    int x_coordinate_mswindow_scaled = (int)(x_coordinate_mswindow_undetermined * x_coordinate_scaling_factor);
-                    int y_coordinate_mswindow_scaled = (int)(y_coordinate_mswindow_undetermined * y_coordinate_scaling_factor);
+                    //// Do NOT apply scaling to MS window position! MS Windows position is automatically scaled.
+                    //int x_coordinate_mswindow_scaled = (x_coordinate_mswindow_undetermined * 1);
+                    //int y_coordinate_mswindow_scaled = (int)(y_coordinate_mswindow_undetermined * 1);
 
                     // Net result = scaled result + window position
-                    x_coordinate_result = x_coordinate_needle_scaled + x_coordinate_mswindow_scaled;
-                    y_coordinate_result = y_coordinate_needle_scaled + y_coordinate_mswindow_scaled;
+                    x_coordinate_result = x_coordinate_needle_scaled + x_coordinate_mswindow_undetermined;
+                    y_coordinate_result = y_coordinate_needle_scaled + y_coordinate_mswindow_undetermined;
                     break;
 
                 case false: // Coordinates are absolute

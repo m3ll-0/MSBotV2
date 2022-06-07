@@ -53,7 +53,7 @@ namespace MSBotV2
             //DetectQuests();
             //FinishQuestDialog();
 
-            ActivatedQuestParts.Push(QuestPart.QUEST_200_TRANQUIL_ERDAS);
+            //ActivatedQuestParts.Push(QuestPart.QUEST_200_TRANQUIL_ERDAS);
             //ActivatedQuestParts.Push(QuestPart.QUEST_50_SOULFUL_ERDAS_SAMPLES);
             //ActivatedQuestParts.Push(QuestPart.QUEST_50_STONE_ERDAS_SAMPLES);
 

@@ -13,15 +13,14 @@ namespace MSBotV2
 
     public class Program
     {
-        // TODO, activate - deactivate specter manually exit map 3, otherwise on mistake it can still go
         static void Main(string[] args)
         {
             Logger.Log(nameof(Program), $"Starting program in 3 seconds");
             Thread.Sleep(3000);
             Logger.Log(nameof(Program), $"MSBot has started!");
 
-            //Launch();
-            demo();
+            Launch();
+            //demo();
         }                                                                                                                                
                                                                                                                                          
         public static void Launch() {

@@ -193,9 +193,8 @@ namespace MSBotV2
 
             public static Dictionary<TemplateMatchingAction, (int, int)> TemplateMatchingActionRelativeOffset { get; set; } = new Dictionary<TemplateMatchingAction, (int, int)>()
             {
-                { TemplateMatchingAction.MAP_SEARCH_BAR, (100, 0) },
-                { TemplateMatchingAction.MAP_SEARCH_BUTTON, (200, 0) },
-                { TemplateMatchingAction.MAP_SELECTED, (-8, -4) },
+                { TemplateMatchingAction.MAP_SELECTED, (-11, -7) },
+                { TemplateMatchingAction.MAP_SEARCH_FOUND_ICON, (0, -5) }
             };
 
             public static Dictionary<TemplateMatchingAction, double> TemplateMatchingActionThreshold { get; set; } = new Dictionary<TemplateMatchingAction, double>()
@@ -207,7 +206,7 @@ namespace MSBotV2
 
         public static class MouseConfig
         {
-            public static bool UseScreenScaling = true;
+            public static bool UseScreenScaling = false;
 
             public static double draw_screen_factor = 1.25;
 
