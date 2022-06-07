@@ -38,7 +38,8 @@ namespace MSBotV2
             string needleFileName = Config.TemplateMatchingConfig.TemplateMatchingActionFiles[templateMatchingAction];
 
             // Create haystack (screenshot, but keep it in memory as optimization)
-            var haystack = ScreenCapture.CaptureActiveWindow();
+            Bitmap haystack = ScreenCapture.CaptureActiveWindow();
+            //haystack.Save("C:/msbot/test.jpg", ImageFormat.Jpeg);
 
             // HayStack
             Image<Bgr, byte> haystackSourceImage = haystack.ToImage<Bgr, byte>();
@@ -166,6 +167,8 @@ namespace MSBotV2
             QUEST_50_STONE_ERDAS_SAMPLES,
             QUEST_200_TRANQUIL_ERDAS,
             QUEST_50_JOYFUL_ERDAS_SAMPLES,
+            QUEST_50_SOULFUL_ERDAS_SAMPLES,
+            QUEST_200_SAD_ERDAS,
             QUEST_RONA,
             QUEST_RONA_DIALOG,
 
@@ -213,6 +216,13 @@ namespace MSBotV2
         {
             var rect = new Rect();
             GetWindowRect(handle, ref rect);
+
+            if (Config.MouseConfig.UseScreenScaling) {
+                rect.Left = (int)(rect.Left * Config.MouseConfig.draw_screen_factor);
+                rect.Top = (int)(rect.Top * Config.MouseConfig.draw_screen_factor);
+                rect.Right = (int)(rect.Right * Config.MouseConfig.draw_screen_factor);
+                rect.Bottom = (int)(rect.Bottom * Config.MouseConfig.draw_screen_factor);
+            }
 
             var bounds = new Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
             var result = new Bitmap(bounds.Width, bounds.Height);

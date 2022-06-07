@@ -16,9 +16,9 @@ namespace MSBotV2
             public static Dictionary<OrchestratorMode, int> CycleConfigTime { get; set; } = new Dictionary<OrchestratorMode, int>()
             {
                 { OrchestratorMode.MODE_ATTACK, 1000 * 120 },
-                { OrchestratorMode.MODE_ATTACK_SPECTER, 1000 * 29 },
+                { OrchestratorMode.MODE_ATTACK_SPECTER, 1000 * 38 },
                 { OrchestratorMode.MODE_CC, 0 },
-                { OrchestratorMode.MODE_BUFF, 0 },
+                { OrchestratorMode.MODE_BUFF, -1 },
             };
 
             public static Dictionary<OrchestratorMode, OrchestratorMode> CycleConfigSequence { get; set; } = new Dictionary<OrchestratorMode, OrchestratorMode>()
@@ -110,6 +110,8 @@ namespace MSBotV2
                 { TemplateMatchingAction.QUEST_50_STONE_ERDAS_SAMPLES,TemplateMatchingMouseClickType.NONE},
                 { TemplateMatchingAction.QUEST_200_TRANQUIL_ERDAS,TemplateMatchingMouseClickType.NONE},
                 { TemplateMatchingAction.QUEST_50_JOYFUL_ERDAS_SAMPLES,TemplateMatchingMouseClickType.NONE},
+                { TemplateMatchingAction.QUEST_50_SOULFUL_ERDAS_SAMPLES,TemplateMatchingMouseClickType.NONE},
+                { TemplateMatchingAction.QUEST_200_SAD_ERDAS,TemplateMatchingMouseClickType.NONE},
                 { TemplateMatchingAction.QUEST_RONA,TemplateMatchingMouseClickType.MOUSE_CLICK_DOUBLE},
                 { TemplateMatchingAction.QUEST_RONA_DIALOG,TemplateMatchingMouseClickType.MOUSE_CLICK_SINGLE},
                 // Map
@@ -174,6 +176,9 @@ namespace MSBotV2
                 { TemplateMatchingAction.QUEST_50_STONE_ERDAS_SAMPLES, "quest_50_stone_erdas_samples.png" },
                 { TemplateMatchingAction.QUEST_200_TRANQUIL_ERDAS, "quest_200_tranquil_erdas.png" },
                 { TemplateMatchingAction.QUEST_50_JOYFUL_ERDAS_SAMPLES, "quest_50_joyful_erdas_samples.png" },
+                { TemplateMatchingAction.QUEST_50_SOULFUL_ERDAS_SAMPLES, "quest_50_soulful_erdas_samples.png" },
+                { TemplateMatchingAction.QUEST_200_SAD_ERDAS, "quest_200_sad_erdas.png" },
+
                 { TemplateMatchingAction.QUEST_RONA, "quest_rona.png" },
                 { TemplateMatchingAction.QUEST_RONA_DIALOG, "quest_rona_dialog.png" },
 
@@ -196,13 +201,15 @@ namespace MSBotV2
             public static Dictionary<TemplateMatchingAction, double> TemplateMatchingActionThreshold { get; set; } = new Dictionary<TemplateMatchingAction, double>()
             {
                 { TemplateMatchingAction.MAP_SELECTED, 0.99 },
-                { TemplateMatchingAction.QUEST_COMPLETED, 0.7 },
+                { TemplateMatchingAction.QUEST_COMPLETED, 0.75 },
             };
         }
 
         public static class MouseConfig
         {
-            public static bool UseScreenScaling = false;
+            public static bool UseScreenScaling = true;
+
+            public static double draw_screen_factor = 1.25;
 
             public static double x_coordinate_scaling_factor = 0.793650794;
             public static double y_coordinate_scaling_factor = 0.8;

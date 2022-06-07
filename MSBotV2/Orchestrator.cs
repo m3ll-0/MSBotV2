@@ -12,7 +12,7 @@ namespace MSBotV2
 {
     public static class Orchestrator
     {
-        private static OrchestratorMode orchestratorMode = OrchestratorMode.MODE_ATTACK;
+        private static OrchestratorMode orchestratorMode = OrchestratorMode.MODE_BUFF;
         private static Dictionary<List<ScriptItem>, ScriptItemAttackType> attackPool = CreateAttackScriptsPool();
         private static Core core = new Core();
         private static Stopwatch sw = new Stopwatch();
@@ -68,8 +68,11 @@ namespace MSBotV2
             // Get configured switch time
             int switchTime = OrchestratorConfig.CycleConfigTime[orchestratorMode];
 
-            // See if elapsed time > switch time
-            if (sw.Elapsed.TotalMilliseconds > switchTime)
+            if (switchTime == -1) {
+                return; // One time usage - returns after executing script and cycles
+            }
+            else if (sw.Elapsed.TotalMilliseconds > switchTime) // See if elapsed time > switch time
+
             {
                 Logger.Log(nameof(Orchestrator), $"Normal Cycle, changing OrchestratorMode from [{orchestratorMode}] to [{OrchestratorConfig.CycleConfigSequence[orchestratorMode]}]");
 
@@ -117,6 +120,7 @@ namespace MSBotV2
                 Logger.Log(nameof(Orchestrator), $"Detected switchtime in [{orchestratorMode}], exiting specter mode. ");
                 core.RunScript(ScriptComposer.Compose(ToggleSpecterMode));
 
+                // Set orchestrator mode manually because buff-mode is one way
                 Logger.Log(nameof(Orchestrator), $"End of SpecterMode reached, changing Orchestrator mode from [{orchestratorMode}] to [{OrchestratorConfig.CycleConfigSequence[orchestratorMode]}]");
                 orchestratorMode = OrchestratorConfig.CycleConfigSequence[orchestratorMode];
 
@@ -139,6 +143,9 @@ namespace MSBotV2
             Logger.Log(nameof(Orchestrator), $"Buffing");
 
             core.RunScript(ScriptComposer.Compose(Buff));
+
+            // Need to set orchestrator mode manually because -1 in main thread will keep in loop
+            orchestratorMode = OrchestratorConfig.CycleConfigSequence[orchestratorMode];
         }
 
         /*
@@ -220,7 +227,7 @@ namespace MSBotV2
 
                 // Sleep after cycle
                 Logger.Log(nameof(Orchestrator), $"PollTemplateMatchingThread goes to sleep");
-                Thread.Sleep(5000);
+                Thread.Sleep(3000);
             }
         }
     }

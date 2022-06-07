@@ -7,7 +7,7 @@ using static MSBotV2.TemplateMatching;
 
 namespace MSBotV2
 {
-    public class ArcaneRiverQuestBot : ChuChuQuestBot
+    public class ArcaneRiverQuestBot : QuestBot
     {
         // Should start attack orchestrator and seperate thread too somewhere. Orchestrator should be adjusted to specific events like quest completed and give callback 
         // in case a questpart has finished. In case of death, the questpart should be attempted again by returning to the designated map.
@@ -26,14 +26,18 @@ namespace MSBotV2
             {QuestPart.QUEST_200_TRANQUIL_ERDAS, FinishedScripts.SearchMapCaveDepths },
             {QuestPart.QUEST_50_TRANQUIL_ERDAS_SAMPLES, FinishedScripts.SearchMapCaveDepths },
             {QuestPart.QUEST_50_STONE_ERDAS_SAMPLES, FinishedScripts.SearchMapFireRockZone },
-            {QuestPart.QUEST_50_JOYFUL_ERDAS_SAMPLES, FinishedScripts.SearchMapHiddenLakeShore }
+            {QuestPart.QUEST_50_JOYFUL_ERDAS_SAMPLES, FinishedScripts.SearchMapHiddenLakeShore },
+            {QuestPart.QUEST_50_SOULFUL_ERDAS_SAMPLES, FinishedScripts.SearchMapHiddenFireZone },
+            {QuestPart.QUEST_200_SAD_ERDAS, FinishedScripts.SearchMapLandOfSorrow }
         };
 
         private Dictionary<QuestPart, TemplateMatchingAction> QuestPartTemplateMatchingAction = new Dictionary<QuestPart, TemplateMatchingAction>() {
             {QuestPart.QUEST_200_TRANQUIL_ERDAS, TemplateMatchingAction.QUEST_200_TRANQUIL_ERDAS },
             {QuestPart.QUEST_50_TRANQUIL_ERDAS_SAMPLES, TemplateMatchingAction.QUEST_50_TRANQUIL_ERDAS_SAMPLES },
             {QuestPart.QUEST_50_STONE_ERDAS_SAMPLES, TemplateMatchingAction.QUEST_50_STONE_ERDAS_SAMPLES },
-            {QuestPart.QUEST_50_JOYFUL_ERDAS_SAMPLES, TemplateMatchingAction.QUEST_50_JOYFUL_ERDAS_SAMPLES }
+            {QuestPart.QUEST_50_JOYFUL_ERDAS_SAMPLES, TemplateMatchingAction.QUEST_50_JOYFUL_ERDAS_SAMPLES },
+            {QuestPart.QUEST_50_SOULFUL_ERDAS_SAMPLES, TemplateMatchingAction.QUEST_50_SOULFUL_ERDAS_SAMPLES },
+            {QuestPart.QUEST_200_SAD_ERDAS, TemplateMatchingAction.QUEST_200_SAD_ERDAS }
         };
 
         private QuestPartStatus QuestPartStatus;
@@ -49,9 +53,8 @@ namespace MSBotV2
             //DetectQuests();
             //FinishQuestDialog();
 
-            //ActivatedQuestParts.Push(QuestPart.QUEST_200_TRANQUIL_ERDAS);
-            ActivatedQuestParts.Push(QuestPart.QUEST_50_TRANQUIL_ERDAS_SAMPLES);
-            //ActivatedQuestParts.Push(QuestPart.QUEST_50_JOYFUL_ERDAS_SAMPLES);
+            ActivatedQuestParts.Push(QuestPart.QUEST_200_TRANQUIL_ERDAS);
+            //ActivatedQuestParts.Push(QuestPart.QUEST_50_SOULFUL_ERDAS_SAMPLES);
             //ActivatedQuestParts.Push(QuestPart.QUEST_50_STONE_ERDAS_SAMPLES);
 
             // Execution

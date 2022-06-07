@@ -16,11 +16,11 @@ namespace MSBotV2
             Dictionary<List<ScriptItem>, ScriptItemAttackType> map = new Dictionary<List<ScriptItem>, ScriptItemAttackType>();
             map.Add(ScriptAttackLeftToRightVariation1, ScriptItemAttackType.LEFT_TO_RIGHT);
             map.Add(ScriptAttackLeftToRightVariation2, ScriptItemAttackType.LEFT_TO_RIGHT);
-            //map.Add(ScriptAttackLeftToRightVariation3, ScriptItemAttackType.LEFT_TO_RIGHT);
+            map.Add(ScriptAttackLeftToRightVariation3, ScriptItemAttackType.LEFT_TO_RIGHT);
 
             map.Add(ScriptAttackRightToLeftVariation1, ScriptItemAttackType.RIGHT_TO_LEFT);
             map.Add(ScriptAttackRightToLeftVariation2, ScriptItemAttackType.RIGHT_TO_LEFT);
-            //map.Add(ScriptAttackRightToLeftVariation3, ScriptItemAttackType.RIGHT_TO_LEFT);
+            map.Add(ScriptAttackRightToLeftVariation3, ScriptItemAttackType.RIGHT_TO_LEFT);
 
             return map;
         }
@@ -29,10 +29,10 @@ namespace MSBotV2
         {
             Dictionary<List<ScriptItem>, ScriptItemAttackType> map = new Dictionary<List<ScriptItem>, ScriptItemAttackType>();
             map.Add(ScriptAttackSpecterLeftToRightVariation1, ScriptItemAttackType.LEFT_TO_RIGHT);
-            //map.Add(ScriptAttackSpecterLeftToRightVariation2, ScriptItemAttackType.LEFT_TO_RIGHT);
+            map.Add(ScriptAttackSpecterLeftToRightVariation2, ScriptItemAttackType.LEFT_TO_RIGHT);
 
             map.Add(ScriptAttackSpecterRightToLeftVariation1, ScriptItemAttackType.RIGHT_TO_LEFT);
-            //map.Add(ScriptAttackSpecterRightToLeftVariation2, ScriptItemAttackType.RIGHT_TO_LEFT);
+            map.Add(ScriptAttackSpecterRightToLeftVariation2, ScriptItemAttackType.RIGHT_TO_LEFT);
 
 
             return map;
@@ -238,12 +238,7 @@ namespace MSBotV2
 
         public static List<ScriptItem> Buff = new List<ScriptItem>()
             {
-                new ScriptItem(AtomicParallelEvents.BuffInfinity),
-                new ScriptItem(AtomicParallelEvents.BuffFlora),
-                new ScriptItem(AtomicParallelEvents.BuffWrath),
-                new ScriptItem(AtomicParallelEvents.BuffContact),
-                new ScriptItem(AtomicParallelEvents.BuffAmplifier),
-                new ScriptItem(AtomicParallelEvents.BuffOverdrive),
+                new ScriptItem(AtomicParallelEvents.Buffs),
             };
 
         public static List<ScriptItem> PreExitMottled = new List<ScriptItem>()
@@ -351,6 +346,15 @@ namespace MSBotV2
             new ScriptItem(AtomicParallelEvents.SearchMapHiddenLakeShore),
         };
 
+        public static List<ScriptItem> SearchMapLandOfSorrow = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.SearchMapLandOfSorrow),
+        };
+
+        public static List<ScriptItem> SearchMapHiddenFireZone = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.SearchMapHiddenFireZone),
+        };
 
     }
 }

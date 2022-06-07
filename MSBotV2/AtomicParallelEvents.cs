@@ -15,9 +15,10 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 1000, 0),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 500),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 900)
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 1000, 200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 1100)
             };
         }
 
@@ -180,11 +181,12 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 400, 0),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 400, 0),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 0),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_DOWN, 400, 600),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 500, 800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 400, 200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 400, 200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_DOWN, 400, 800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 500, 1000),
             };
         }
 
@@ -193,11 +195,12 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFT, 400, 0),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 400, 0),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 0),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_DOWN, 400, 600),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 500, 800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFT, 400, 200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 400, 200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_DOWN, 400, 800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 500, 1000),
             };
         }
 
@@ -206,6 +209,7 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 0),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 400, 300),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 400, 300),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 300),
@@ -219,6 +223,7 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 0),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFT, 400, 300),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 400, 300),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 300),
@@ -263,10 +268,11 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 800, 0),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 300),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 700),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_Z, 200, 720)
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 800, 200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 500),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_Z, 200, 920)
             };
         }
 
@@ -360,10 +366,11 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 800, 0),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 300),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 700),
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LSHIFT, 200, 720)
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 800, 200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 500),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LSHIFT, 200, 920)
             };
         }
 
@@ -440,6 +447,23 @@ namespace MSBotV2
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F9, 1000, 0),
             };
         }
+
+        public static List<ParallelCommand> Buffs() {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_5, 300, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_6, 300, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_7, 300, 600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_8, 300, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_9, 300, 1200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_0, 300, 1500),
+            };
+
+
+
+        }
+
 
         public static List<ParallelCommand> BuffContact()
         {
@@ -671,6 +695,50 @@ namespace MSBotV2
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_H, 200, 3600),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 3900),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_R, 200, 4200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 4500),
+            };
+        }
+
+        public static List<ParallelCommand> SearchMapLandOfSorrow()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_L, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_A, 200, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_N, 200, 600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_D, 200, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 1200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 1500),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F, 200, 1800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 2100),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 2400),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 2700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_R, 200, 3000),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_R, 200, 3300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 3600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_W, 200, 3900),
+            };
+        }
+
+        public static List<ParallelCommand> SearchMapHiddenFireZone()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_H, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_I, 200, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_D, 200, 600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_D, 200, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 1200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_N, 200, 1500),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 1800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F, 200, 2100),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_I, 200, 2400),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_R, 200, 2700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 3000),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 3300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_Z, 200, 3600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 3900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_N, 200, 4200),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 4500),
             };
         }

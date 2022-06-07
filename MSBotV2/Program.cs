@@ -20,8 +20,8 @@ namespace MSBotV2
             Thread.Sleep(3000);
             Logger.Log(nameof(Program), $"MSBot has started!");
 
-            Launch();
-            //demo();
+            //Launch();
+            demo();
         }                                                                                                                                
                                                                                                                                          
         public static void Launch() {
@@ -52,10 +52,14 @@ namespace MSBotV2
 
 
             //TemplateMatching.TemplateMatch(TemplateMatching.TemplateMatchingAction.QUEST_COMPLETED);
+
+
             TemplateMatching.LoadNeedlesFromDiskToMemory();
 
-                ArcaneRiverQuestBot arcaneRiverQuestBot = new ArcaneRiverQuestBot();
-                arcaneRiverQuestBot.ExecuteBot();
+            ArcaneRiverQuestBot arcaneRiverQuestBot = new ArcaneRiverQuestBot();
+            arcaneRiverQuestBot.ExecuteBot();
+
+
             //new Core().RunScript(ScriptComposer.Compose(FinishedScripts.ScriptAttackSpecterLeftToRightVariation2));
 
 
