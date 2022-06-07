@@ -8,9 +8,9 @@ namespace MSBotV2
 {
     public static class Logger
     {
-        public static void Log(string className, string message, LoggerPriority loggerPriority, bool newLine = true) {
+        public static void Log(string className, string message, bool newLine = true) {
 
-            Console.ForegroundColor = LoggerPriorities[loggerPriority];
+            Console.ForegroundColor = LoggerClassColors[className];
 
             string currentTime = DateTime.Now.ToString("h:mm:ss");
             string line = $"{currentTime} | {className} | {message}";
@@ -32,22 +32,16 @@ namespace MSBotV2
             }
         }
 
-        public static Dictionary<LoggerPriority, ConsoleColor> LoggerPriorities = new Dictionary<LoggerPriority, ConsoleColor>(){
-            { LoggerPriority.CRITICAL, ConsoleColor.Red },
-            { LoggerPriority.HIGH, ConsoleColor.Magenta },
-            { LoggerPriority.MEDIUM, ConsoleColor.White },
-            { LoggerPriority.LOW, ConsoleColor.DarkYellow },
-            { LoggerPriority.INFO, ConsoleColor.DarkGray },
+        public static Dictionary<string, ConsoleColor> LoggerClassColors = new Dictionary<string, ConsoleColor>(){
+            { "Orchestrator", ConsoleColor.DarkYellow },
+            { "TemplateMatching", ConsoleColor.Magenta },
+            { "ArcaneRiverQuestBot", ConsoleColor.Green },
+            { "ChuChuQuestBot", ConsoleColor.Green },
+            { "Script", ConsoleColor.DarkGray },
+            { "Program", ConsoleColor.White },
+            { "Mouse", ConsoleColor.DarkGray },
         };
 
-        public enum LoggerPriority
-        { 
-            CRITICAL,
-            HIGH,
-            MEDIUM,
-            LOW,
-            INFO
-        }
         private static void LogToFile(string message)
         {
             try
@@ -60,7 +54,7 @@ namespace MSBotV2
                 tw.Close();
             }
             catch (Exception ex) {
-                Console.WriteLine("Error logging: " + ex.Message);
+                Console.WriteLine("Error logging to file: " + ex.Message);
             }
         }
     }

@@ -40,11 +40,6 @@ namespace MSBotV2
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 800, 0),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 300),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 700),
-                //new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_Z, 200, 720)
-
-                //new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 100, 0),
-                //new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 300),
-                //new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LALT, 300, 700)
             };
         }
 
@@ -203,6 +198,32 @@ namespace MSBotV2
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 0),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_DOWN, 400, 600),
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 500, 800),
+            };
+        }
+
+        public static List<ParallelCommand> DashComboRightUp()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 400, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 400, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 400, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 500, 1100),
+            };
+        }
+
+        public static List<ParallelCommand> DashComboLeftUp()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFT, 400, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 400, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UP, 400, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 500, 1100),
             };
         }
 
@@ -496,10 +517,171 @@ namespace MSBotV2
 
         public static List<ParallelCommand> CloseInventory()
         {
-
             return new List<ParallelCommand>()
             {
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_I, 200, 0),
+            };
+        }
+
+        public static List<ParallelCommand> ConfirmQuest()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 200, 400),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RETURN, 200, 800),
+            };
+        }
+        public static List<ParallelCommand> Return()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RETURN, 200, 0),
+            };
+        }
+
+        public static List<ParallelCommand> OpenMap()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F12, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 1000, 0),
+            };
+        }
+
+        public static List<ParallelCommand> SearchMapColossalTail()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_C, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_L, 200, 600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 1200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 1500),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_A, 200, 1800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_L, 200, 2100),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 2400),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_T, 200, 2700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_A, 200, 3000),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_I, 200, 3300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_L, 200, 3600),
+            };
+        }
+
+        public static List<ParallelCommand> SearchMapMottledForest1()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_M, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_T, 200, 600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_T, 200, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_L, 200, 1200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 1500),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_D, 200, 1800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 2100),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F, 200, 2400),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 2700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_R, 200, 3000),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 3300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 3600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_T, 200, 3900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 4200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_1, 200, 4500),
+            };
+        }
+
+        public static List<ParallelCommand> SearchMapDealieBobberForest1()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_B, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_B, 200, 600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_B, 200, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 1200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_R, 200, 1500),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 1800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F, 200, 2100),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 2400),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_R, 200, 2700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 3000),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 3300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_T, 200, 3600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_1, 200, 3900),
+            };
+        }
+
+        public static List<ParallelCommand> SearchMapCaveDepths()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_C, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_A, 200, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_V, 200, 600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 1200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_D, 200, 1500),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 1800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_P, 200, 2100),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_T, 200, 2400),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_H, 200, 2700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 3000),
+            };
+        }
+
+        public static List<ParallelCommand> SearchMapFireRockZone()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_I, 200, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_R, 200, 600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 1200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_R, 200, 1500),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 1800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_C, 200, 2100),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_K, 200, 2400),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 2700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_Z, 200, 3000),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 3300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_N, 200, 3600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 3900),
+            };
+        }
+
+        public static List<ParallelCommand> SearchMapHiddenLakeShore()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_H, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_I, 200, 300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_D, 200, 600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_D, 200, 900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 1200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_N, 200, 1500),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 200, 1800),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_L, 200, 2100),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_A, 200, 2400),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_K, 200, 2700),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 3000),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 3300),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_H, 200, 3600),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_O, 200, 3900),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_R, 200, 4200),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_E, 200, 4500),
+            };
+        }
+
+        public static List<ParallelCommand> MoveToNearbyTown()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F11, 200, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 5000, 200),
+
             };
         }
     }

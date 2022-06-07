@@ -22,7 +22,7 @@ namespace MSBotV2
             int x_coordinate_mswindow_undetermined = mapleStoryWindowCoordinates.Item1;
             int y_coordinate_mswindow_undetermined = mapleStoryWindowCoordinates.Item2;
 
-            Logger.Log(nameof(Mouse), $"Found coordinates for Maplestory {mapleStoryWindowCoordinates.Item1}, {mapleStoryWindowCoordinates.Item2})", Logger.LoggerPriority.MEDIUM);
+            Logger.Log(nameof(Mouse), $"Found coordinates for Maplestory {mapleStoryWindowCoordinates.Item1}, {mapleStoryWindowCoordinates.Item2})");
 
             // todo move to config
             double x_coordinate_scaling_factor = Config.MouseConfig.x_coordinate_scaling_factor;
@@ -52,7 +52,7 @@ namespace MSBotV2
                     break;
             }
 
-            Logger.Log(nameof(Mouse), $"Found coordinate results to click {x_coordinate_result}, {y_coordinate_result})", Logger.LoggerPriority.MEDIUM);
+            Logger.Log(nameof(Mouse), $"Found coordinate results to click {x_coordinate_result}, {y_coordinate_result})");
 
             // Add 10px as padding because template matching selects the first pixel found
             // Another implementation is only selecting the middle of the image as a needle, coud be looked at

@@ -9,13 +9,16 @@ namespace MSBotV2
 {
     public class DynamicScript
     {
-        public DynamicScript(TemplateMatching.TemplateMatchingAction? templateMatchingAction, List<ScriptItem>? scriptItems, DynamicScript? dynamicScriptNodeTrue, DynamicScript? dynamicScriptNodeFalse)
+        public DynamicScript(Action? functionToInvoke,TemplateMatching.TemplateMatchingAction? templateMatchingAction, List<ScriptItem>? scriptItems, DynamicScript? dynamicScriptNodeTrue, DynamicScript? dynamicScriptNodeFalse)
         {
+            FunctionToInvoke = functionToInvoke;
             ScriptItems = scriptItems;
             TemplateMatchingAction = templateMatchingAction;
             DynamicScriptNodeTrue = dynamicScriptNodeTrue;
             DynamicScriptNodeFalse = dynamicScriptNodeFalse;
         }
+
+        public Action? FunctionToInvoke { get; private set; }
 
         public TemplateMatchingAction? TemplateMatchingAction { get; private set; }
 
@@ -27,6 +30,10 @@ namespace MSBotV2
 
         public void Invoke()
         {
+            if (FunctionToInvoke != null) {
+                FunctionToInvoke.Invoke();
+            }
+
             if (ScriptItems != null) {
                 new Core().RunDynamicScript(ScriptComposer.Compose(ScriptItems));
             }

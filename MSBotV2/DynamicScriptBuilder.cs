@@ -9,43 +9,10 @@ namespace MSBotV2
 {
     public class DynamicScriptBuilder
     {
-        public static DynamicScript BuildOpenPetDynamicScript() {
-
-   
-            // always return to map
-
-            DynamicScript dynamicScriptReturnToMap = new DynamicScript(
-                null,
-                FinishedScripts.CloseInventory
-                    .Concat(FinishedScripts.NavigateChuChuToFiveColorHillPath)
-                    .Concat(FinishedScripts.NavigateFiveColorHillPathToMottledForest1)
-                    .Concat(FinishedScripts.NavigateMottledForest1ToMottledForest2)
-                    .Concat(FinishedScripts.NavigateMottledForest2ToMottledForest3)
-                    .ToList(),
-                    null, 
-                    null
-                    );
-
-            DynamicScript dynamicScriptOpenPet = new DynamicScript(
-                TemplateMatchingAction.INVENTORY_PET,
-                FinishedScripts.OpenPet,
-                dynamicScriptReturnToMap,
-                dynamicScriptReturnToMap
-                );
-           
-            DynamicScript dynamicScriptOpenInventoryCashRoot = new DynamicScript(
-                TemplateMatchingAction.INVENTORY_CASH,
-                FinishedScripts.OpenInventory,
-                dynamicScriptOpenPet,
-                dynamicScriptReturnToMap
-                );
-
-            return dynamicScriptOpenInventoryCashRoot;
-        }
-
         public static DynamicScript BuildChangeChannelDynamicScript()
         {
             DynamicScript dynamicScriptChangeChannelRoot = new DynamicScript(
+                null,
                 null,
                 FinishedScripts.ChangeChannel,
                 null,
@@ -59,6 +26,7 @@ namespace MSBotV2
         {
             DynamicScript dynamicScriptChangeChannelRoot = new DynamicScript(
                 null,
+                null,
                 FinishedScripts.ToggleSpecterMode,
                 null,
                 null
@@ -67,25 +35,18 @@ namespace MSBotV2
             return dynamicScriptChangeChannelRoot;
         }
 
-        public static DynamicScript BuildMoveToTrainingMapAfterDeathDynamicScript()
-        {
-            ///// FAILSAFE
-            DynamicScript dynamicScriptReturnToMapOnFoot = new DynamicScript(
-            null,
-            FinishedScripts.CloseInventory
-                .Concat(FinishedScripts.NavigateChuChuToFiveColorHillPath)
-                .Concat(FinishedScripts.NavigateFiveColorHillPathToMottledForest1)
-                .Concat(FinishedScripts.NavigateMottledForest1ToMottledForest2)
-                .Concat(FinishedScripts.NavigateMottledForest2ToMottledForest3)
-                .ToList(),
-                null,
-                null
-                );
+        public static void DynamicScriptHelperChangeDirectionFunction() {
+            Orchestrator.currentAttackTypeMode = (Orchestrator.currentAttackTypeMode == FinishedScripts.ScriptItemAttackType.RIGHT_TO_LEFT ? FinishedScripts.ScriptItemAttackType.LEFT_TO_RIGHT : FinishedScripts.ScriptItemAttackType.RIGHT_TO_LEFT);
+        }
 
-            ////// END
+        public static DynamicScript BuildMoveToTrainingMapFailsafeDynamicScript()
+        {
+            // Get orchestrator type, go to designated map based on type. If questing, get from questingbot and run changemapservice, probably change implementation to always do that.
+            // if not, normal script
 
             // Close all windows
             DynamicScript dynamicScriptCloseAllWindows = new DynamicScript(
+                null,
                 null,
                 FinishedScripts.CloseInventory,
                 null,
@@ -94,61 +55,285 @@ namespace MSBotV2
 
             // Click confirm button
             DynamicScript dynamicScriptClickConfirmButton = new DynamicScript(
+                null,
                 TemplateMatchingAction.HYPER_ROCK_CONFIRM_BUTTON,
                 FinishedScripts.PauseLong,
                 dynamicScriptCloseAllWindows,
-                dynamicScriptReturnToMapOnFoot
+                null
                 );
 
             // Click move button
             DynamicScript dynamicScriptClickMoveButton = new DynamicScript(
+                null,
                 TemplateMatchingAction.HYPER_ROCK_MOVE_BUTTON,
                 FinishedScripts.PauseLong,
                 dynamicScriptClickConfirmButton,
-                dynamicScriptReturnToMapOnFoot
+                null
                 );
 
             // Click on map
             DynamicScript dynamicScriptClickMap = new DynamicScript(
+                null,
                 TemplateMatchingAction.HYPER_ROCK_MAP,
                 FinishedScripts.PauseLong,
                 dynamicScriptClickMoveButton,
-                dynamicScriptReturnToMapOnFoot
+                null
                 );
 
             // Click hyper rock
             DynamicScript dynamicScriptOpenHyperRock = new DynamicScript(
+                null,
                 TemplateMatchingAction.INVENTORY_HYPER_ROCK,
                 FinishedScripts.PauseLong,
                 dynamicScriptClickMap,
-                dynamicScriptReturnToMapOnFoot
+                null
                 );
 
             // Click pet
             DynamicScript dynamicScriptOpenPet = new DynamicScript(
+                null,
                 TemplateMatchingAction.INVENTORY_PET,
                 FinishedScripts.PauseLong,
                 dynamicScriptOpenHyperRock,
-                dynamicScriptReturnToMapOnFoot
+                null
                 );
 
             // Open inventory
             DynamicScript dynamicScriptOpenInventoryCash = new DynamicScript(
+                null,
                 TemplateMatchingAction.INVENTORY_CASH,
                 FinishedScripts.PauseLong,
                 dynamicScriptOpenPet,
-                dynamicScriptReturnToMapOnFoot
+                null
                 );
 
             // Sleep after death (root)
             DynamicScript dynamicScriptSleepAfterDeathRoot = new DynamicScript(
                 null,
+                null,
                 FinishedScripts.PauseAfterDeathAndOpenInventory,
                 dynamicScriptOpenInventoryCash,
-                dynamicScriptReturnToMapOnFoot
+                null
                 );
 
             return dynamicScriptSleepAfterDeathRoot;
+        }
+
+        public static DynamicScript BuildStartChuChuQuestStartingDialog()
+        {
+            // Click next by using enter command, quests are listed after this
+            DynamicScript dynamicScriptNext2 = new DynamicScript(
+                null,
+                null,
+                FinishedScripts.Return,
+                null,
+                null
+                );
+
+            // Click next by using enter command
+            DynamicScript dynamicScriptNext1 = new DynamicScript(
+                null,
+                null,
+                FinishedScripts.Return,
+                dynamicScriptNext2,
+                null
+                );
+
+            // Open dialog
+            DynamicScript dynamicScriptOpenDialogRoot = new DynamicScript(
+                null,
+                TemplateMatchingAction.QUEST_MASTER_LYCK,
+                null,
+                dynamicScriptNext1,
+                null
+                );
+
+            return dynamicScriptOpenDialogRoot;
+        }
+
+        public static DynamicScript BuildFinishChuChuQuestStartingDialog()
+        {
+            // Move to confirm button and hit enter
+            DynamicScript dynamicScriptNext = new DynamicScript(
+                null,
+                null,
+                FinishedScripts.ConfirmQuest,
+                null,
+                null
+                );
+
+            // Move to confirm button and hit enter
+            DynamicScript dynamicScriptConfirmRoot = new DynamicScript(
+                null,
+                null,
+                FinishedScripts.ConfirmQuest,
+                dynamicScriptNext,
+                null
+                );
+
+            return dynamicScriptConfirmRoot;
+        }
+
+        public static DynamicScript BuildQuestChuChuCompletedDynamicScript()
+        {
+            // Tell ChuChuQuestBot that the quest has been completed
+
+            // Placeholder for questcompleted callback
+            DynamicScript dynamicScriptPlaceholderRoot = new DynamicScript(
+                ChuChuQuestBot.QuestChuChuCompletedCallback,
+                null,
+                null,
+                null,
+                null
+                );
+
+            return dynamicScriptPlaceholderRoot;
+        }
+
+        public static DynamicScript BuildQuestArcaneRiverCompletedDynamicScript()
+        {
+            // Placeholder for questcompleted callback
+            DynamicScript dynamicScriptPlaceholderRoot = new DynamicScript(
+                ArcaneRiverQuestBot.QuestArcaneRiverCompletedCallback,
+                null,
+                null,
+                null,
+                null
+                );
+
+            return dynamicScriptPlaceholderRoot;
+        }
+
+        public static DynamicScript BuildNavigationDynamicScript(List<ScriptItem> scriptItems)
+        {
+            //// Click okay button
+            DynamicScript dynamicScriptConfirm = new DynamicScript(
+                null,
+                TemplateMatchingAction.MAP_CONFIRM,
+                FinishedScripts.PauseLong,
+                null,
+                BuildMoveToTrainingMapFailsafeDynamicScript()
+                );
+
+            // Detect blinking icon and double click it
+            DynamicScript dynamicScriptClickMap = new DynamicScript(
+                null,
+                TemplateMatchingAction.MAP_SELECTED,
+                FinishedScripts.PauseLong,
+                dynamicScriptConfirm,
+                BuildMoveToTrainingMapFailsafeDynamicScript()
+                );
+
+            // Click first item
+            DynamicScript dynamicScriptClickMapSearchBar = new DynamicScript(
+                null,
+                TemplateMatchingAction.MAP_SEARCH_FOUND_ICON,
+                FinishedScripts.PauseLong,
+                dynamicScriptClickMap,
+                BuildMoveToTrainingMapFailsafeDynamicScript()
+                );
+
+            // Click search
+            DynamicScript dynamicScriptClickSearch = new DynamicScript(
+                null,
+                TemplateMatchingAction.MAP_SEARCH_BUTTON,
+                FinishedScripts.PauseLong,
+                dynamicScriptClickMapSearchBar,
+                BuildMoveToTrainingMapFailsafeDynamicScript()
+                );
+
+            // Type in searchbar using script
+            DynamicScript dynamicScriptTypeMapname = new DynamicScript(
+                null,
+                null,
+                scriptItems,
+                dynamicScriptClickSearch,
+                BuildMoveToTrainingMapFailsafeDynamicScript()
+                );
+
+            // Click searchbar
+            DynamicScript dynamicScriptClickSearchbar = new DynamicScript(
+                null,
+                TemplateMatchingAction.MAP_SEARCH_BAR,
+                FinishedScripts.PauseLong,
+                dynamicScriptTypeMapname,
+                BuildMoveToTrainingMapFailsafeDynamicScript()
+                );
+
+            // Open the map
+            DynamicScript dynamicScriptOpenMapRoot = new DynamicScript(
+                null,
+                null,
+                FinishedScripts.OpenMap,
+                dynamicScriptClickSearchbar,
+                BuildMoveToTrainingMapFailsafeDynamicScript()
+                );
+
+            return dynamicScriptOpenMapRoot;
+        }
+
+
+        public static DynamicScript BuildStartArcaneRiverQuestStartingDialog()
+        {
+            DynamicScript dynamicScriptNext3 = new DynamicScript(
+                null,
+                null,
+                FinishedScripts.PauseLong,
+                null,
+                null
+                );
+
+            // Click next by using enter command, quests are listed after this
+            DynamicScript dynamicScriptNext2 = new DynamicScript(
+                null,
+                TemplateMatchingAction.QUEST_RONA_DIALOG,
+                FinishedScripts.PauseLong,
+                dynamicScriptNext3,
+                null
+                );
+
+            // Click next by using enter command
+            DynamicScript dynamicScriptNext1 = new DynamicScript(
+                null,
+                null,
+                FinishedScripts.Return,
+                dynamicScriptNext2,
+                null
+                );
+
+            // Open dialog
+            DynamicScript dynamicScriptOpenDialogRoot = new DynamicScript(
+                null,
+                TemplateMatchingAction.QUEST_RONA,
+                FinishedScripts.PauseLong,
+                dynamicScriptNext1,
+                null
+                );
+
+            return dynamicScriptOpenDialogRoot;
+        }
+
+        public static DynamicScript BuildFinishArcaneRiverQuestStartingDialog()
+        {
+            // Move to confirm button and hit enter
+            DynamicScript dynamicScriptNext = new DynamicScript(
+                null,
+                null,
+                FinishedScripts.PauseLong.Concat(FinishedScripts.Return).ToList(),
+                null,
+                null
+                );
+
+            // Move to confirm button and hit enter
+            DynamicScript dynamicScriptConfirmRoot = new DynamicScript(
+                null,
+                null,
+                FinishedScripts.ConfirmQuest,
+                dynamicScriptNext,
+                null
+                );
+
+            return dynamicScriptConfirmRoot;
         }
     }
 }

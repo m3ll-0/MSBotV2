@@ -12,14 +12,15 @@ namespace MSBotV2
 {
     public static class Orchestrator
     {
-        private static OrchestratorMode orchestratorMode = OrchestratorMode.MODE_BUFF;
-        private static ScriptItemAttackType currentAttackTypeMode = ScriptItemAttackType.LEFT_TO_RIGHT;
+        private static OrchestratorMode orchestratorMode = OrchestratorMode.MODE_ATTACK;
         private static Dictionary<List<ScriptItem>, ScriptItemAttackType> attackPool = CreateAttackScriptsPool();
         private static Core core = new Core();
         private static Stopwatch sw = new Stopwatch();
-        private static OrchestratorModeCycleStrategy orchestratorModeCycleStrategy = OrchestratorModeCycleStrategy.SIMPLE; // todo: conf
         private static Map currentMap = Map.MOTTLED_FOREST_3;
         private static bool ORCHESTRATOR_INTERRUPTED = false;
+        public static bool ORCHESTRATOR_QUIT = false;
+        public static OrchestratorType orchestratorType = OrchestratorType.MOBBING;
+        public static ScriptItemAttackType currentAttackTypeMode = ScriptItemAttackType.LEFT_TO_RIGHT;
 
         public static void Orchestrate() {
 
@@ -28,9 +29,14 @@ namespace MSBotV2
 
             for (; ; ) {
 
+                if (ORCHESTRATOR_QUIT) {
+                    Logger.Log(nameof(Script), $"Detected [ORCHESTRATOR_QUIT], quitting Orchestrator thread.");
+                    return;
+                }
+
                 if (ORCHESTRATOR_INTERRUPTED)
                 {
-                    Logger.Log(nameof(Script), $"Orchestrator interrupted to call DynamicScript, in idle mode", Logger.LoggerPriority.HIGH);
+                    Logger.Log(nameof(Script), $"Orchestrator interrupted to call DynamicScript, in idle mode");
                     Thread.Sleep(1000);
                     continue;
                 }
@@ -65,7 +71,7 @@ namespace MSBotV2
             // See if elapsed time > switch time
             if (sw.Elapsed.TotalMilliseconds > switchTime)
             {
-                Logger.Log(nameof(Orchestrator), $"Normal Cycle, changing OrchestratorMode from [{orchestratorMode}] to [{OrchestratorConfig.CycleConfigSequence[orchestratorMode]}]", Logger.LoggerPriority.MEDIUM);
+                Logger.Log(nameof(Orchestrator), $"Normal Cycle, changing OrchestratorMode from [{orchestratorMode}] to [{OrchestratorConfig.CycleConfigSequence[orchestratorMode]}]");
 
                 orchestratorMode = OrchestratorConfig.CycleConfigSequence[orchestratorMode];
 
@@ -74,7 +80,7 @@ namespace MSBotV2
             }
             else
             {
-                Logger.Log(nameof(Orchestrator), $"Lapsed {sw.Elapsed.TotalMilliseconds} / {switchTime} ", Logger.LoggerPriority.LOW);
+                Logger.Log(nameof(Orchestrator), $"Lapsed {sw.Elapsed.TotalMilliseconds} / {switchTime} ");
             }
         }
 
@@ -86,7 +92,7 @@ namespace MSBotV2
 
             // Toggle attack type mode to change direction
             currentAttackTypeMode = (currentAttackTypeMode == ScriptItemAttackType.RIGHT_TO_LEFT ? ScriptItemAttackType.LEFT_TO_RIGHT : ScriptItemAttackType.RIGHT_TO_LEFT);
-            Logger.Log(nameof(Orchestrator), $"Changing ScriptItemAttackType to [{currentAttackTypeMode}]", Logger.LoggerPriority.MEDIUM);
+            Logger.Log(nameof(Orchestrator), $"Changing ScriptItemAttackType to [{currentAttackTypeMode}]");
         }
 
         private static void HandleAttackSpecterMode()
@@ -101,17 +107,17 @@ namespace MSBotV2
 
             // Toggle attack type mode to change direction
             currentAttackTypeMode = (currentAttackTypeMode == ScriptItemAttackType.RIGHT_TO_LEFT ? ScriptItemAttackType.LEFT_TO_RIGHT : ScriptItemAttackType.RIGHT_TO_LEFT);
-            Logger.Log(nameof(Orchestrator), $"Changing ScriptItemSpecterAttackType to [{currentAttackTypeMode}]", Logger.LoggerPriority.MEDIUM);
+            Logger.Log(nameof(Orchestrator), $"Changing ScriptItemSpecterAttackType to [{currentAttackTypeMode}]");
 
             // Need to handle exit spectermode somewhere
             int switchTime = OrchestratorConfig.CycleConfigTime[orchestratorMode];
 
             if (sw.Elapsed.TotalMilliseconds > switchTime)
             {
-                Logger.Log(nameof(Orchestrator), $"Detected switchtime in [{orchestratorMode}], exiting specter mode. ", Logger.LoggerPriority.MEDIUM);
+                Logger.Log(nameof(Orchestrator), $"Detected switchtime in [{orchestratorMode}], exiting specter mode. ");
                 core.RunScript(ScriptComposer.Compose(ToggleSpecterMode));
 
-                Logger.Log(nameof(Orchestrator), $"End of SpecterMode reached, changing Orchestrator mode from [{orchestratorMode}] to [{OrchestratorConfig.CycleConfigSequence[orchestratorMode]}]", Logger.LoggerPriority.HIGH);
+                Logger.Log(nameof(Orchestrator), $"End of SpecterMode reached, changing Orchestrator mode from [{orchestratorMode}] to [{OrchestratorConfig.CycleConfigSequence[orchestratorMode]}]");
                 orchestratorMode = OrchestratorConfig.CycleConfigSequence[orchestratorMode];
 
                 sw.Restart();
@@ -119,7 +125,7 @@ namespace MSBotV2
         }
 
         private static void handleChangeChannelMode() {
-            Logger.Log(nameof(Orchestrator), $"Changing channel {currentAttackTypeMode}", Logger.LoggerPriority.MEDIUM);
+            Logger.Log(nameof(Orchestrator), $"Changing channel {currentAttackTypeMode}");
 
             // Run the script
             core.RunScript(ScriptComposer.Compose(OrchestratorConfig.MapChangeChannelScripts[currentMap]));
@@ -130,7 +136,7 @@ namespace MSBotV2
 
         private static void handleBuffMode()
         {
-            Logger.Log(nameof(Orchestrator), $"Buffing", Logger.LoggerPriority.MEDIUM);
+            Logger.Log(nameof(Orchestrator), $"Buffing");
 
             core.RunScript(ScriptComposer.Compose(Buff));
         }
@@ -152,7 +158,7 @@ namespace MSBotV2
             if (dynamicScript != null) {
 
                 // Invoke corresponding script
-                Logger.Log(nameof(TemplateMatching), $"Invoking dynamic script for TemplateMatchingAction {templateMatchingAction})", Logger.LoggerPriority.MEDIUM);
+                Logger.Log(nameof(TemplateMatching), $"Invoking dynamic script for TemplateMatchingAction {templateMatchingAction})");
                 
                 Core.CORE_INTERRUPTED = true; // Set false immediately, else the DynamicScript won't execute
                 ORCHESTRATOR_INTERRUPTED = true; // Set false after DynamicScript has finished
@@ -178,14 +184,25 @@ namespace MSBotV2
         {
             for (; ; )
             {
+                if (ORCHESTRATOR_QUIT)
+                {
+                    Logger.Log(nameof(Script), $"Detected [ORCHESTRATOR_QUIT], quitting PollTemplateMatching thread.");
+                    return;
+                }
+
                 foreach (TemplateMatchingAction templateMatchingAction in TemplateMatchingConfig.TemplateActionsInterruptingOrchestrator)
                 {
+                    // Check if quest mode is not enable and in case quest completed needle was found, skip
+                    if (orchestratorType != OrchestratorType.QUEST && templateMatchingAction == TemplateMatchingAction.QUEST_COMPLETED) {
+                        continue;
+                    }
+
                     // Check if TemplateMatchingAction timeout has been expired since last event
                     var timeBetweenEventsInMilliseconds = (DateTime.Now - TemplateMatchingConfig.TemplateMatchingActionEventTimes[templateMatchingAction]).TotalMilliseconds;
                     var templateMatchingActionTimeout = TemplateMatchingConfig.TemplateMatchingActionTimeouts[templateMatchingAction];
 
                     if (timeBetweenEventsInMilliseconds < templateMatchingActionTimeout) {
-                        Logger.Log(nameof(Orchestrator), $"Timeout for {templateMatchingAction} has not been reached: {timeBetweenEventsInMilliseconds} / {templateMatchingActionTimeout}", Logger.LoggerPriority.INFO);
+                        Logger.Log(nameof(Orchestrator), $"Timeout for {templateMatchingAction} has not been reached: {timeBetweenEventsInMilliseconds} / {templateMatchingActionTimeout}");
                         continue;
                     }
 
@@ -193,7 +210,7 @@ namespace MSBotV2
 
                     if (polledOrchestratorMode != null)
                     {
-                        Logger.Log(nameof(Orchestrator), $"Interrupting cycle by TemplateMatching, changing Orchestrator mode from [{orchestratorMode}] to [{(OrchestratorMode)polledOrchestratorMode}]", Logger.LoggerPriority.HIGH);
+                        Logger.Log(nameof(Orchestrator), $"Interrupting cycle by TemplateMatching, changing Orchestrator mode from [{orchestratorMode}] to [{(OrchestratorMode)polledOrchestratorMode}]");
                         orchestratorMode = (OrchestratorMode)polledOrchestratorMode;
 
                         // Restart orchistrator mode seperately
@@ -202,12 +219,13 @@ namespace MSBotV2
                 }
 
                 // Sleep after cycle
-                Logger.Log(nameof(Orchestrator), $"PollTemplateMatchingThread goes to sleep", Logger.LoggerPriority.LOW);
+                Logger.Log(nameof(Orchestrator), $"PollTemplateMatchingThread goes to sleep");
                 Thread.Sleep(5000);
             }
         }
     }
 
+    // Determines the cycle of the orchestrator
     public enum OrchestratorMode
     { 
         MODE_ATTACK,
@@ -228,4 +246,9 @@ namespace MSBotV2
     }
 
 
+    // Determines the type of the orchestrator, if quest, on death return to quest map, otherwise to mobbing map
+    public enum OrchestratorType { 
+        MOBBING,
+        QUEST
+    }
 }

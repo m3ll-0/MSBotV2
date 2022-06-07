@@ -11,14 +11,13 @@ namespace MSBotV2
 
         public void RunScript(Script script) {
 
-            Logger.Log(nameof(Script), $"Invoking script", Logger.LoggerPriority.INFO);
-
+            Logger.Log(nameof(Script), $"Invoking script");
 
             for (; ; ) {
                 // Check if CORE_INTERRUPTED is set to through, meaning that an DynamicScript is being invoked and should be waited upon.
                 // If so, cancel current instance.
                 if (CORE_INTERRUPTED) {
-                    Logger.Log(nameof(Script), $"Core interrupted to call DynamicScript", Logger.LoggerPriority.INFO);
+                    Logger.Log(nameof(Script), $"Core interrupted to call DynamicScript");
 
                     CORE_INTERRUPTED = false;
                     return;
@@ -44,7 +43,7 @@ namespace MSBotV2
         public void RunDynamicScript(Script script)
         {
 
-            Logger.Log(nameof(Script), $"Invoking script", Logger.LoggerPriority.INFO);
+            Logger.Log(nameof(Script), $"Invoking script");
 
 
             for (; ; )

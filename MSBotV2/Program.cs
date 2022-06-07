@@ -16,10 +16,9 @@ namespace MSBotV2
         // TODO, activate - deactivate specter manually exit map 3, otherwise on mistake it can still go
         static void Main(string[] args)
         {
-
-            Logger.Log(nameof(Program), $"Starting program in 3 seconds", Logger.LoggerPriority.MEDIUM);
+            Logger.Log(nameof(Program), $"Starting program in 3 seconds");
             Thread.Sleep(3000);
-            Logger.Log(nameof(Program), $"MSBot has started!", Logger.LoggerPriority.MEDIUM);
+            Logger.Log(nameof(Program), $"MSBot has started!");
 
             Launch();
             //demo();
@@ -42,8 +41,29 @@ namespace MSBotV2
             //    new ScriptItem(AtomicParallelEvents.ChangeChannel),
             //};
 
+
+
+
+            //TemplateMatching.LoadNeedlesFromDiskToMemory();
+            //DynamicScriptBuilder.BuildNavigationDynamicScript(FinishedScripts.SearchMapMottledForest1).Invoke();
+
+            //ChuChuQuestBot chuChuQuestBot = new ChuChuQuestBot();
+            //chuChuQuestBot.ExecuteBot();
+
+
+            //TemplateMatching.TemplateMatch(TemplateMatching.TemplateMatchingAction.QUEST_COMPLETED);
             TemplateMatching.LoadNeedlesFromDiskToMemory();
-            DynamicScriptBuilder.BuildMoveToTrainingMapAfterDeathDynamicScript().Invoke();
+
+                ArcaneRiverQuestBot arcaneRiverQuestBot = new ArcaneRiverQuestBot();
+                arcaneRiverQuestBot.ExecuteBot();
+            //new Core().RunScript(ScriptComposer.Compose(FinishedScripts.ScriptAttackSpecterLeftToRightVariation2));
+
+
+
+            //TemplateMatching.TemplateMatch(TemplateMatching.TemplateMatchingAction.QUEST_COMPLETED);
+
+
+
 
             //Orchestrator.GetRandomSpecterAttack();
 
@@ -51,7 +71,7 @@ namespace MSBotV2
 
             //Console.WriteLine("Starting in 3 seconds.");
 
-            //TemplateMatching.TemplateMatch(TemplateMatching.TemplateMatchingAction.SPECTER_GAUGE_FULL);
+
 
 
             //List<ScriptItem> x = FinishedScripts.NavigateChuChuToFiveColorHillPath

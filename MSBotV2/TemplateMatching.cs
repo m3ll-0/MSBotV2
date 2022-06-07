@@ -48,14 +48,18 @@ namespace MSBotV2
             Image<Gray, byte> needleTemplateGrayscaleImage = templateMatchingMemoryImage[templateMatchingAction].Convert<Gray, byte>();
 
             //set threshold, 1.00 meaning that the images must be identical
-            double Threshold = 0.8;
+            double Threshold = Config.TemplateMatchingConfig.TemplateMatchingActionThreshold.GetValueOrDefault(templateMatchingAction) == 0 ? 0.8 : Config.TemplateMatchingConfig.TemplateMatchingActionThreshold.GetValueOrDefault(templateMatchingAction);
+            //double Threshold = Config.TemplateMatchingConfig.TemplateMatchingActionThreshold.GetValueOrDefault(templateMatchingAction);
+            //Console.WriteLine("XXXX");
+            //Console.WriteLine(Threshold);
+
             Image<Gray, float>? Matches = null;
 
             try {
                 Matches = haystackSourceGrayscaleImage.MatchTemplate(needleTemplateGrayscaleImage, TemplateMatchingType.CcoeffNormed);
             } catch (Exception e)
             { // Catch Emgu.CV.Util.CVException
-                Logger.Log(nameof(TemplateMatching), e.Message, Logger.LoggerPriority.CRITICAL);
+                Logger.Log(nameof(TemplateMatching), e.Message);
                 return (false, (0, 0));
             }
 
@@ -75,7 +79,7 @@ namespace MSBotV2
                         x_coordinate = x;
                         y_coordinate = y;
 
-                        Logger.Log(nameof(TemplateMatching), $"A match was found for templateMatchingAction [{templateMatchingAction}] on coordinates: ({x},{y})", Logger.LoggerPriority.HIGH);
+                        Logger.Log(nameof(TemplateMatching), $"A match was found for templateMatchingAction [{templateMatchingAction}] on coordinates: ({x},{y})");
 
                         // Break nested loop
                         goto LoopEnd;
@@ -85,9 +89,14 @@ namespace MSBotV2
 
             LoopEnd:
 
-            if(!foundMatch) Logger.Log(nameof(TemplateMatching), $"No match was found for TemplateMatchingAction [{templateMatchingAction}])", Logger.LoggerPriority.HIGH);
+            if(!foundMatch) Logger.Log(nameof(TemplateMatching), $"No match was found for TemplateMatchingAction [{templateMatchingAction}])");
 
             if (foundMatch) {
+                // Calculate relavitve offset if exists, if it doesn't exist, it defaults to (0,0) so it can be used regardless
+                var relativeTemplateMatchingActionOffset = Config.TemplateMatchingConfig.TemplateMatchingActionRelativeOffset.GetValueOrDefault(templateMatchingAction);
+                x_coordinate += relativeTemplateMatchingActionOffset.Item1;
+                y_coordinate += relativeTemplateMatchingActionOffset.Item2;
+
                 // Check if mouse click has to be performed
                 switch (Config.TemplateMatchingConfig.TemplateMatchingMouseClicks[templateMatchingAction])
                 {
@@ -134,6 +143,7 @@ namespace MSBotV2
 
         public enum TemplateMatchingAction
         {
+            // General (Orchestrator)
             DEATH_SCREEN,
             PENALTY,
             INVENTORY_CASH,
@@ -143,7 +153,29 @@ namespace MSBotV2
             INVENTORY_HYPER_ROCK,
             HYPER_ROCK_MAP,
             HYPER_ROCK_MOVE_BUTTON,
-            HYPER_ROCK_CONFIRM_BUTTON
+            HYPER_ROCK_CONFIRM_BUTTON,
+
+            // Quests
+            QUEST_50_LYCKS_RECIPES,
+            QUEST_200_BIGHORN_PINEDEERS,
+            QUEST_200_GREEN_CATFISH,
+            QUEST_MASTER_LYCK,
+            QUEST_COMPLETED,
+
+            QUEST_50_TRANQUIL_ERDAS_SAMPLES,
+            QUEST_50_STONE_ERDAS_SAMPLES,
+            QUEST_200_TRANQUIL_ERDAS,
+            QUEST_50_JOYFUL_ERDAS_SAMPLES,
+            QUEST_RONA,
+            QUEST_RONA_DIALOG,
+
+            // Map
+            MAP_SEARCH_BAR,
+            MAP_SEARCH_BUTTON,
+            MAP_SELECTED,
+            MAP_SEARCH_FOUND_ICON,
+            MAP_CONFIRM
+
         }
     }
 
