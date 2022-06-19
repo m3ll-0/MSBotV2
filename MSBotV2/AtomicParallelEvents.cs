@@ -149,6 +149,15 @@ namespace MSBotV2
             };
         }
 
+        public static List<ParallelCommand> PauseShort()
+        {
+
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 700, 0),
+            };
+        }
+
         public static List<ParallelCommand> PauseMediumLong()
         {
 
@@ -172,7 +181,7 @@ namespace MSBotV2
 
             return new List<ParallelCommand>()
             {
-                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 5000, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 8000, 0),
             };
         }
 
@@ -441,7 +450,7 @@ namespace MSBotV2
 
         public static List<ParallelCommand> ToggleSpecterMode()
         {
-
+    
             return new List<ParallelCommand>()
             {
                 new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_F9, 1000, 0),
@@ -752,5 +761,104 @@ namespace MSBotV2
 
             };
         }
+
+        public static List<ParallelCommand> MoveRightMedium()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHT, 50, 0),
+            };
+        }
+
+        public static List<ParallelCommand> MoveLeftMedium()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFT, 50, 0),
+            };
+        }
+
+        public static List<ParallelCommand> RunePressRight()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHTARROW, 75, 0),
+            };
+        }
+
+        public static List<ParallelCommand> RunePressLeft()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFTARROW, 75, 0),
+            };
+        }
+
+        public static List<ParallelCommand> RunePressUp()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_UPARROW, 75, 0),
+            };
+        }
+
+        public static List<ParallelCommand> RunePressDown()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_DOWNARROW, 75, 0),
+            };
+        }
+
+        public static List<ParallelCommand> RunePressPause()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 75, 0),
+            };
+        }
+
+        public static List<ParallelCommand> RuneAcivate()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_SPACE, 15, 0),
+            };
+        }
+
+        public static List<ParallelCommand> RuneActivatePause()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_PAUSE, 200, 0),
+            };
+        }
+
+        public static List<ParallelCommand> AttackBowRight()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_RIGHTARROW, 9000, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LSHIFT, 8900, 100),
+            };
+        }
+
+        public static List<ParallelCommand> AttackBowLeft()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LEFTARROW, 9000, 0),
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_LSHIFT, 8900, 100),
+            };
+        }
+
+        public static List<ParallelCommand> AttackLasso()
+        {
+            return new List<ParallelCommand>()
+            {
+                new ParallelCommand(Keyboard.DirectXKeyStrokes.DIK_S, 200, 0),
+            };
+        }
+
     }
 }

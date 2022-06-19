@@ -25,7 +25,7 @@ namespace MSBotV2
             {
                 // Multi-direction
                 { OrchestratorMode.MODE_BUFF, OrchestratorMode.MODE_ATTACK },
-                { OrchestratorMode.MODE_ATTACK, OrchestratorMode.MODE_CC },
+                { OrchestratorMode.MODE_ATTACK, OrchestratorMode.MODE_BUFF },
                 { OrchestratorMode.MODE_CC, OrchestratorMode.MODE_ATTACK },
 
                 // Single-direction
@@ -56,6 +56,7 @@ namespace MSBotV2
                 { TemplateMatchingAction.DEATH_SCREEN, new DateTime(1999, 8, 11, 08, 15, 20)},
                 { TemplateMatchingAction.BOSS_CURSE, new DateTime(1999, 8, 11, 08, 15, 20)},
                 { TemplateMatchingAction.QUEST_COMPLETED, new DateTime(1999, 8, 11, 08, 15, 20)},
+                { TemplateMatchingAction.MINIMAP_RUNE, new DateTime(1999, 8, 11, 08, 15, 20)},
             };
 
             public static Dictionary<TemplateMatchingAction, int> TemplateMatchingActionTimeouts = new Dictionary<TemplateMatchingAction, int>()
@@ -65,8 +66,9 @@ namespace MSBotV2
                 { TemplateMatchingAction.DEATH_SCREEN, 0},
                 { TemplateMatchingAction.BOSS_CURSE, 40000},
                 { TemplateMatchingAction.QUEST_COMPLETED, 0},
+                { TemplateMatchingAction.MINIMAP_RUNE, 20000},
             };
-
+                
             public static List<(TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)> TemplateMatchingOrchestratorModes = new List<(TemplateMatchingAction, OrchestratorMode, OrchestratorMode?)>()
             {
                 new (TemplateMatchingAction.SPECTER_GAUGE_FULL, OrchestratorMode.MODE_ATTACK_SPECTER, null),
@@ -74,6 +76,8 @@ namespace MSBotV2
                 new (TemplateMatchingAction.PENALTY, OrchestratorMode.MODE_ATTACK, null),
                 new (TemplateMatchingAction.BOSS_CURSE, OrchestratorMode.MODE_ATTACK, null),
                 new (TemplateMatchingAction.QUEST_COMPLETED, OrchestratorMode.MODE_ATTACK, null),
+                new (TemplateMatchingAction.MINIMAP_RUNE, OrchestratorMode.MODE_ATTACK, null),
+
             };
 
             // TemplateMatchingActions that interrupt the main cycle
@@ -81,13 +85,24 @@ namespace MSBotV2
             {
                 TemplateMatchingAction.QUEST_COMPLETED,
                 TemplateMatchingAction.DEATH_SCREEN,
-                TemplateMatchingAction.PENALTY,
-                TemplateMatchingAction.BOSS_CURSE,
+                //TemplateMatchingAction.PENALTY,
+                //TemplateMatchingAction.BOSS_CURSE,
+                TemplateMatchingAction.MINIMAP_RUNE,
                 TemplateMatchingAction.SPECTER_GAUGE_FULL,
             };
 
             public static Dictionary<TemplateMatchingAction, TemplateMatchingMouseClickType> TemplateMatchingMouseClicks = new Dictionary<TemplateMatchingAction, TemplateMatchingMouseClickType>()
             {
+                { TemplateMatchingAction.RUNE_ACTIVATED, TemplateMatchingMouseClickType.NONE },
+                { TemplateMatchingAction.RUNE_TIMEOUT, TemplateMatchingMouseClickType.NONE },
+                { TemplateMatchingAction.RUNE_TIMEOUT2, TemplateMatchingMouseClickType.NONE },
+
+                { TemplateMatchingAction.MINIMAP_BORDER_LEFT, TemplateMatchingMouseClickType.NONE },
+                { TemplateMatchingAction.MINIMAP_BORDER_RIGHT, TemplateMatchingMouseClickType.NONE },
+                { TemplateMatchingAction.MINIMAP_PLAYER, TemplateMatchingMouseClickType.NONE },
+                { TemplateMatchingAction.MINIMAP_RUNE, TemplateMatchingMouseClickType.NONE },
+                { TemplateMatchingAction.MINIMAP_PORTAL, TemplateMatchingMouseClickType.NONE },
+
                 { TemplateMatchingAction.DEATH_SCREEN, TemplateMatchingMouseClickType.MOUSE_CLICK_SINGLE },
                 { TemplateMatchingAction.PENALTY, TemplateMatchingMouseClickType.NONE },
                 { TemplateMatchingAction.INVENTORY_CASH, TemplateMatchingMouseClickType.MOUSE_CLICK_SINGLE},
@@ -131,7 +146,7 @@ namespace MSBotV2
                     ),
                 new (
                     TemplateMatchingAction.PENALTY,
-                    DynamicScriptBuilder.BuildChangeChannelDynamicScript(),
+                    DynamicScriptBuilder.BuildRuneDetectionDynamicScript(),
                     null
                     ),
                 new (
@@ -141,18 +156,33 @@ namespace MSBotV2
                     ),
                 new (
                     TemplateMatchingAction.BOSS_CURSE,
-                    DynamicScriptBuilder.BuildChangeChannelDynamicScript(),
+                    DynamicScriptBuilder.BuildRuneDetectionDynamicScript(),
                     null
                 ),
                 new (
                     TemplateMatchingAction.QUEST_COMPLETED,
                     DynamicScriptBuilder.BuildQuestArcaneRiverCompletedDynamicScript(),// todo: make variable by proxy function so that it can give callback to any bot
                     null
+                ),
+                new (
+                    TemplateMatchingAction.MINIMAP_RUNE,
+                    DynamicScriptBuilder.BuildRuneDetectionDynamicScript(),
+                    null
                 )
             };
 
             public static Dictionary<TemplateMatchingAction, string> TemplateMatchingActionFiles { get; set; } = new Dictionary<TemplateMatchingAction, string>()
             {
+                { TemplateMatchingAction.RUNE_ACTIVATED, "needle_rune_activated.png" },
+                { TemplateMatchingAction.RUNE_TIMEOUT, "needle_rune_timeout.png" },
+                { TemplateMatchingAction.RUNE_TIMEOUT2, "needle_rune_timeout2.png" },
+
+                { TemplateMatchingAction.MINIMAP_BORDER_LEFT, "needle_minimap_border_left.png" },
+                { TemplateMatchingAction.MINIMAP_BORDER_RIGHT, "needle_minimap_border_right.png" },
+                { TemplateMatchingAction.MINIMAP_PLAYER, "needle_minimap_player.png" },
+                { TemplateMatchingAction.MINIMAP_RUNE, "needle_minimap_rune.png" },
+                { TemplateMatchingAction.MINIMAP_PORTAL, "needle_minimap_portal.png" },
+
                 { TemplateMatchingAction.DEATH_SCREEN, "needle_deathscreen.png" },
                 { TemplateMatchingAction.PENALTY, "needle_penalty.png" },
                 { TemplateMatchingAction.INVENTORY_CASH, "needle_cash.png" },
@@ -206,7 +236,7 @@ namespace MSBotV2
 
         public static class MouseConfig
         {
-            public static bool UseScreenScaling = false;
+            public static bool UseScreenScaling = true;
 
             public static double draw_screen_factor = 1.25;
 

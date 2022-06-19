@@ -37,6 +37,7 @@ namespace MSBotV2
             { "TemplateMatching", ConsoleColor.Magenta },
             { "ArcaneRiverQuestBot", ConsoleColor.Green },
             { "ChuChuQuestBot", ConsoleColor.Green },
+            { "RuneSolverBot", ConsoleColor.Green },
             { "Script", ConsoleColor.DarkGray },
             { "Program", ConsoleColor.White },
             { "Mouse", ConsoleColor.DarkGray },

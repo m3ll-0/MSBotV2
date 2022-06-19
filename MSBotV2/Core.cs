@@ -8,15 +8,21 @@ namespace MSBotV2
         public static bool CORE_INTERRUPTED = false;
 
         protected int numberOfAliveParallelCommandThreads = 0;
+        private ExecutionContext ExecutionContext;
+
+        public Core(ExecutionContext executionContext = ExecutionContext.DYNAMICSCRIPT) {
+            this.ExecutionContext = executionContext;
+        }
 
         public void RunScript(Script script) {
 
             Logger.Log(nameof(Script), $"Invoking script");
 
             for (; ; ) {
-                // Check if CORE_INTERRUPTED is set to through, meaning that an DynamicScript is being invoked and should be waited upon.
-                // If so, cancel current instance.
-                if (CORE_INTERRUPTED) {
+                //Check if CORE_INTERRUPTED is set to through, meaning that an DynamicScript is being invoked and should be waited upon.
+                 //If so, cancel current instance.
+                if (CORE_INTERRUPTED && this.ExecutionContext == ExecutionContext.ORCHESTRATOR)
+                {
                     Logger.Log(nameof(Script), $"Core interrupted to call DynamicScript");
 
                     CORE_INTERRUPTED = false;
@@ -57,7 +63,7 @@ namespace MSBotV2
                     ParallelEvent parallelEvent = script.ParallelEvents.Pop();
                     InvokeParallelEvent(parallelEvent);
                 }
-
+                
                 // Priority queue is empty, stop
                 if (script.ParallelEvents.Count == 0)
                 {
@@ -76,6 +82,14 @@ namespace MSBotV2
 
             for (; ; )
             {
+                if (CORE_INTERRUPTED && this.ExecutionContext == ExecutionContext.ORCHESTRATOR)
+                {
+                    Logger.Log(nameof(Script), $"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+
+                    CORE_INTERRUPTED = false;
+                    return;
+                }
+
                 // Peek to see if potentialParallelEvent is ready to be invoked
                 ParallelCommand potentialParallelCommand = parallelEvent.ParallelCommands.Peek();
 
@@ -99,6 +113,8 @@ namespace MSBotV2
 
         protected void InvokeParallelCommand(ParallelCommand parallelCommand) {
 
+            Console.WriteLine($"Running command: {parallelCommand.Key}");
+
             if (parallelCommand.Key == Keyboard.DirectXKeyStrokes.DIK_PAUSE)
             {
                 Thread.Sleep(parallelCommand.TimeRunning);
@@ -108,5 +124,10 @@ namespace MSBotV2
             Thread.Sleep(parallelCommand.TimeRunning);
             Keyboard.SendKey(parallelCommand.Key, true, Keyboard.InputType.Keyboard);
         }
+    }
+
+    public enum ExecutionContext { 
+        ORCHESTRATOR,
+        DYNAMICSCRIPT
     }
 }

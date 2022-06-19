@@ -144,6 +144,17 @@ namespace MSBotV2
 
         public enum TemplateMatchingAction
         {
+            RUNE_ACTIVATED,
+            RUNE_TIMEOUT,
+            RUNE_TIMEOUT2,
+
+            // Minimap
+            MINIMAP_BORDER_LEFT,
+            MINIMAP_BORDER_RIGHT,
+            MINIMAP_PLAYER,
+            MINIMAP_RUNE,
+            MINIMAP_PORTAL,
+
             // General (Orchestrator)
             DEATH_SCREEN,
             PENALTY,

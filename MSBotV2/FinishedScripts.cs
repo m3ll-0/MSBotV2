@@ -14,13 +14,19 @@ namespace MSBotV2
         public static Dictionary<List<ScriptItem>, ScriptItemAttackType> CreateAttackScriptsPool()
         {
             Dictionary<List<ScriptItem>, ScriptItemAttackType> map = new Dictionary<List<ScriptItem>, ScriptItemAttackType>();
-            map.Add(ScriptAttackLeftToRightVariation1, ScriptItemAttackType.LEFT_TO_RIGHT);
-            map.Add(ScriptAttackLeftToRightVariation2, ScriptItemAttackType.LEFT_TO_RIGHT);
-            map.Add(ScriptAttackLeftToRightVariation3, ScriptItemAttackType.LEFT_TO_RIGHT);
+            //map.Add(ScriptAttackLeftToRightVariation1, ScriptItemAttackType.LEFT_TO_RIGHT);
+            //map.Add(ScriptAttackLeftToRightVariation2, ScriptItemAttackType.LEFT_TO_RIGHT);
+            //map.Add(ScriptAttackLeftToRightVariation3, ScriptItemAttackType.LEFT_TO_RIGHT);
 
-            map.Add(ScriptAttackRightToLeftVariation1, ScriptItemAttackType.RIGHT_TO_LEFT);
-            map.Add(ScriptAttackRightToLeftVariation2, ScriptItemAttackType.RIGHT_TO_LEFT);
-            map.Add(ScriptAttackRightToLeftVariation3, ScriptItemAttackType.RIGHT_TO_LEFT);
+            //map.Add(ScriptAttackRightToLeftVariation1, ScriptItemAttackType.RIGHT_TO_LEFT);
+            //map.Add(ScriptAttackRightToLeftVariation2, ScriptItemAttackType.RIGHT_TO_LEFT);
+            //map.Add(ScriptAttackRightToLeftVariation3, ScriptItemAttackType.RIGHT_TO_LEFT);
+
+            map.Add(ScriptAttackLeftToRightVariation1X, ScriptItemAttackType.LEFT_TO_RIGHT);
+            map.Add(ScriptAttackRightToLeftVariation1X, ScriptItemAttackType.RIGHT_TO_LEFT);
+
+            map.Add(ScriptAttackLeftToRightVariation1Y, ScriptItemAttackType.LEFT_TO_RIGHT);
+            map.Add(ScriptAttackRightToLeftVariation1Y, ScriptItemAttackType.RIGHT_TO_LEFT);
 
             return map;
         }
@@ -43,6 +49,43 @@ namespace MSBotV2
             LEFT_TO_RIGHT,
             RIGHT_TO_LEFT,
         }
+
+
+        public static List<ScriptItem> ScriptAttackLeftToRightVariation1X = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.AttackBowRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleUp),
+                new ScriptItem(AtomicParallelEvents.PauseShort),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleUp),
+                new ScriptItem(AtomicParallelEvents.TurnLeft),
+                new ScriptItem(AtomicParallelEvents.PauseShort),
+                new ScriptItem(AtomicParallelEvents.AttackLasso),
+                new ScriptItem(AtomicParallelEvents.PauseShort),
+            };
+
+        public static List<ScriptItem> ScriptAttackRightToLeftVariation1Y = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.AttackBowLeft),
+            };
+
+
+        public static List<ScriptItem> ScriptAttackLeftToRightVariation1Y = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.AttackBowRight),
+                new ScriptItem(AtomicParallelEvents.JumpDoubleUp),
+                new ScriptItem(AtomicParallelEvents.TurnLeft),
+                new ScriptItem(AtomicParallelEvents.PauseShort),
+                new ScriptItem(AtomicParallelEvents.AttackLasso),
+                new ScriptItem(AtomicParallelEvents.PauseShort),
+            };
+
+        public static List<ScriptItem> ScriptAttackRightToLeftVariation1X = new List<ScriptItem>()
+            {
+                new ScriptItem(AtomicParallelEvents.AttackBowLeft),
+            };
+
+
+
 
         // Attack acripts normal mode
         public static List<ScriptItem> ScriptAttackLeftToRightVariation1 = new List<ScriptItem>()
@@ -187,6 +230,7 @@ namespace MSBotV2
             {
                 new ScriptItem(AtomicParallelEvents.PauseMedium),
                 new ScriptItem(AtomicParallelEvents.ToggleSpecterMode),
+                new ScriptItem(AtomicParallelEvents.PauseMedium),
             };
 
         // Misc
@@ -284,6 +328,11 @@ namespace MSBotV2
             new ScriptItem(AtomicParallelEvents.OpenInventory)
         };
 
+        public static List<ScriptItem> PauseAfterDeath = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.PauseDeath),
+        };
+
         public static List<ScriptItem> ExitProcess = new List<ScriptItem>()
         {
             new ScriptItem(AtomicParallelEvents.PauseLong),
@@ -354,6 +403,81 @@ namespace MSBotV2
         public static List<ScriptItem> SearchMapHiddenFireZone = new List<ScriptItem>()
         {
             new ScriptItem(AtomicParallelEvents.SearchMapHiddenFireZone),
+        };
+
+        public static List<ScriptItem> MoveLeftShort = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.SearchMapHiddenFireZone),
+        };
+
+        public static List<ScriptItem> MoveRightShort = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.SearchMapHiddenFireZone),
+        };
+
+        public static List<ScriptItem> MoveLeftLong = new List<ScriptItem>()
+        {
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalLeft),
+        };
+
+        public static List<ScriptItem> MoveRightLong = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.AttackDoubleJumpNormalRight),
+        };
+
+        public static List<ScriptItem> MoveLeftMedium = new List<ScriptItem>()
+        {
+                new ScriptItem(AtomicParallelEvents.MoveLeftMedium),
+        };
+
+        public static List<ScriptItem> MoveRightMedium = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.MoveRightMedium),
+        };
+
+        public static List<ScriptItem> MoveUp = new List<ScriptItem>()
+        {
+                new ScriptItem(AtomicParallelEvents.AttackDoubleJumpSwipeUp),
+        };
+
+        public static List<ScriptItem> MoveDown = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.JumpDown),
+        };
+
+        public static List<ScriptItem> RunePressLeft = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.RunePressLeft),
+        };
+
+        public static List<ScriptItem> RunePressRight = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.RunePressRight),
+        };
+
+        public static List<ScriptItem> RunePressUp = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.RunePressUp),
+        };
+
+        public static List<ScriptItem> RunePressDown = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.RunePressDown),
+        };
+
+        public static List<ScriptItem> RunePressPause = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.RunePressPause),
+        };
+
+        public static List<ScriptItem> RuneActivate = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.RuneAcivate),
+        };
+
+        public static List<ScriptItem> RuneActivatePause = new List<ScriptItem>()
+        {
+            new ScriptItem(AtomicParallelEvents.RuneActivatePause),
         };
 
     }

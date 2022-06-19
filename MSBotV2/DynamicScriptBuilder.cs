@@ -261,7 +261,7 @@ namespace MSBotV2
                 );
 
             // Open the map
-            DynamicScript dynamicScriptOpenMapRoot = new DynamicScript(
+            DynamicScript dynamicScriptOpenMap = new DynamicScript(
                 null,
                 null,
                 FinishedScripts.OpenMap,
@@ -269,7 +269,16 @@ namespace MSBotV2
                 BuildMoveToTrainingMapFailsafeDynamicScript()
                 );
 
-            return dynamicScriptOpenMapRoot;
+            // Sleep after death
+            DynamicScript dynamicScriptPauseAfterDeathRoot = new DynamicScript(
+                null,
+                null,
+                FinishedScripts.PauseAfterDeath,
+                dynamicScriptOpenMap,
+                BuildMoveToTrainingMapFailsafeDynamicScript()
+                );
+
+            return dynamicScriptPauseAfterDeathRoot;
         }
 
 
@@ -335,5 +344,60 @@ namespace MSBotV2
 
             return dynamicScriptConfirmRoot;
         }
+
+        public static DynamicScript BuildRuneDetectionDynamicScript()
+        {
+            // Helper function for dynamicScript
+            static void RuneSolverBotActivator()
+            {
+                // Activate RuneSolverBot
+                RuneSolverBot runeSolverBot = new RuneSolverBot();
+                RuneSolverResult runeSolverResult = runeSolverBot.Run();
+
+                // Handle RuneSolverBot result
+                switch (runeSolverResult) {
+                    case RuneSolverResult.SUCCESS:
+                        break;
+
+                    default:
+                        // Change channel is rune activation failed
+                        BuildChangeChannelDynamicScript().Invoke();
+                        break;
+                }
+            }   
+
+            // Rune detection script
+            // If rune timeout is NOT detected
+            // Run rune activation bot
+            DynamicScript dynamicScriptActivateRuneSolverBot = new DynamicScript(
+                RuneSolverBotActivator,
+                null,
+                null,
+                null,
+                null
+                );
+
+            DynamicScript dynamicScriptCheckTimeout2 = new DynamicScript(
+                null,
+                TemplateMatchingAction.RUNE_TIMEOUT2,
+                null,
+                null,
+                dynamicScriptActivateRuneSolverBot
+    );
+
+            DynamicScript dynamicScriptPlaceholderRoot = new DynamicScript(
+                null,
+                TemplateMatchingAction.RUNE_TIMEOUT,
+                null,
+                null,
+                dynamicScriptCheckTimeout2
+                );
+
+            return dynamicScriptPlaceholderRoot;
+        }
+
+
+
     }
+
 }

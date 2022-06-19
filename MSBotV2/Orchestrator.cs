@@ -14,7 +14,7 @@ namespace MSBotV2
     {
         private static OrchestratorMode orchestratorMode = OrchestratorMode.MODE_BUFF;
         private static Dictionary<List<ScriptItem>, ScriptItemAttackType> attackPool = CreateAttackScriptsPool();
-        private static Core core = new Core();
+        private static Core core = new Core(ExecutionContext.ORCHESTRATOR);
         private static Stopwatch sw = new Stopwatch();
         private static Map currentMap = Map.MOTTLED_FOREST_3;
         private static bool ORCHESTRATOR_INTERRUPTED = false;
@@ -167,9 +167,9 @@ namespace MSBotV2
                 // Invoke corresponding script
                 Logger.Log(nameof(TemplateMatching), $"Invoking dynamic script for TemplateMatchingAction {templateMatchingAction})");
                 
-                Core.CORE_INTERRUPTED = true; // Set false immediately, else the DynamicScript won't execute
+                Core.CORE_INTERRUPTED = true; // Set false immediately, else the DynamicScript won't execute correctly
                 ORCHESTRATOR_INTERRUPTED = true; // Set false after DynamicScript has finished
-
+                               
                 dynamicScript.Invoke();
 
                 ORCHESTRATOR_INTERRUPTED = false; // After DynamicScript is done, continue orchestrator
